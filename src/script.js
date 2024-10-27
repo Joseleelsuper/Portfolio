@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ]
             },
             image: "../assets/proyects/TNGLore.webp",
-            web: "https://tnglore.onrender.com/"
+            web: "https://tnglore-8vi4.onrender.com/"
         },
         {
             title: "JoseleelBot",
