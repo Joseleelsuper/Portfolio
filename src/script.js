@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
             image: "../assets/proyects/Talf.webp",
             github: "https://github.com/Joseleelsuper/Ardri"
         }
+        // Añade más proyectos aquí
     ];
 
     const carousel = document.querySelector('#proyectos .carousel');
@@ -262,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 es: {
                     translation: {
                         header: {
-                            title: "Estudiante Ingeniería Informática"
+                            title: "Graduado Ingeniería Informática"
                         },
                         nav: {
                             home: "Inicio",
