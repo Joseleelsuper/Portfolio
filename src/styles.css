@@ -211,7 +211,7 @@ section {
     transition: transform 0.5s ease-in-out;
 }
 
-.project-card {
+.project-card, .certification-card {
     flex: 0 0 100%;
     display: flex;
     flex-direction: column;
@@ -220,17 +220,17 @@ section {
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-.project-card.active {
+.project-card.active, .certification-card.active {
     opacity: 1;
     transform: scale(1);
 }
 
 .project-card:not(.active), .certification-card:not(.active) {
-    opacity: 0.7;
-    transform: scale(0.95);
+    opacity: 0;
+    transform: scale(0.8);
 }
 
-.project-image {
+.project-image, .certification-image {
     width: 100%;
     max-width: 500px;
     height: auto;
@@ -238,39 +238,38 @@ section {
     margin-bottom: 1rem;
 }
 
-.project-info {
+.project-info, .certification-info {
     text-align: center;
 }
 
-.project-title {
+.project-title, .certification-title {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
-.project-description {
-    margin-bottom: 1rem;
+.project-description, .certification-issuer {
+    margin-bottom: 0.5rem;
 }
 
-.project-links {
+.project-links, .certification-links {
     display: flex;
     justify-content: center;
     gap: 1rem;
 }
 
-.project-link {
+.project-link, .certification-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    padding: 0.5rem 1rem;
+    border-radius:  5px;
     background-color: var(--btn-bg);
     color: var(--btn-text);
     text-decoration: none;
     transition: background-color 0.3s;
 }
 
-.project-link:hover {
+.project-link:hover, .certification-link:hover {
     background-color: var(--btn-hover);
 }
 
@@ -285,6 +284,7 @@ section {
     cursor: pointer;
     font-size: 1.5rem;
     z-index: 10;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .carousel-button.prev {
@@ -295,85 +295,10 @@ section {
     right: 1rem;
 }
 
-@media (max-width: 768px) {
-    .project-card {
-        flex-direction: column;
-    }
-
-    .project-image {
-        max-width: 100%;
-    }
+.carousel-button.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
-
-.certification-card {
-    flex: 0 0 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.certification-card.active {
-    opacity: 1;
-    transform: scale(1);
-}
-
-
-.certification-image {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-}
-
-.certification-info {
-    text-align: center;
-}
-
-.certification-title {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.certification-issuer {
-    margin-bottom: 1rem;
-}
-
-.certification-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.certification-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--btn-bg);
-    color: var(--btn-text);
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.certification-link:hover {
-    background-color: var(--btn-hover);
-}
-
-@media (max-width: 768px) {
-    .certification-card {
-        flex-direction: column;
-    }
-
-    .certification-image {
-        max-width: 100%;
-    }
-}
-
 
 #proyectos h2, #certificaciones h2 {
     font-size: 2rem;
@@ -416,11 +341,12 @@ section {
         padding: 0;
     }
 
-    .project-card.prev,
-    .project-card.next,
-    .certification-card.prev,
-    .certification-card.next {
-        display: none;
+    .project-card, .certification-card {
+        flex-direction: column;
+    }
+
+    .project-image, .certification-image {
+        max-width: 100%;
     }
 }
 
@@ -463,19 +389,4 @@ section {
 
 html {
     scroll-behavior: smooth;
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.project-card, .certification-card {
-    flex: 0 0 100%;
-    width: 100%;
-}
-
-.carousel-container {
-    position: relative;
-    overflow: hidden;
 }
