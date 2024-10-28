@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 ]
             },
             image: "../assets/proyects/TNGLore.webp",
-            web: "https://tnglore-8vi4.onrender.com/"
         },
         {
             title: "JoseleelBot",
@@ -108,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
             card.classList.add('active');
         }
         const descriptionHtml = project.description[language].map(paragraph => `<p>${paragraph}</p>`).join('');
+        // Texto opcional para el botón de GitHub y Web.
         card.innerHTML = `
             <img src="${project.image}" alt="${project.title}" class="project-image">
             <div class="project-info">
