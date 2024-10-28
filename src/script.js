@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileThemeToggle = document.getElementById('theme-toggle-mobile');
 
     window.addEventListener('scroll', () => {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        let scrollTop = window.pageY || document.documentElement.scrollTop;
         if (scrollTop > lastScrollTop) {
             header.classList.add('hidden');
         } else {
