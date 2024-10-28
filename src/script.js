@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carrusel de certificaciones
     const certifications = [
         {
-            title: "CS50AI: CS50's Introduction to Artificial Intelligence with Python",
+            title: "CS50's Introduction to Artificial Intelligence with Python",
             issuer: "HarvardX",
             image: "../assets/certifications/GallardoCaballeroJose_CS50AIVerified.pdf",
             verifyLink: "https://courses.edx.org/certificates/975705ba7ff14d7a8d6718fe3e22a1d6",
