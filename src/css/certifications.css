@@ -1,0 +1,83 @@
+/* Estilos para la sección de certificaciones */
+#certificaciones {
+    background-color: var(--about-bg);
+    padding: 4rem 1rem;
+}
+
+#certificaciones h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.certification-card {
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.certification-card.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.certification-card:not(.active) {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.certification-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.certification-info {
+    text-align: center;
+}
+
+.certification-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.certification-issuer {
+    margin-bottom: 0.5rem;
+}
+
+.certification-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.certification-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.certification-link:hover {
+    background-color: var(--btn-hover);
+}
+
+@media (max-width: 768px) {
+    .certification-card {
+        flex-direction: column;
+    }
+
+    .certification-image {
+        max-width: 100%;
+    }
+}

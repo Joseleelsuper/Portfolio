@@ -1,0 +1,20 @@
+/* Estilos para la sección Sobre mí */
+#sobre-mi {
+    background-color: var(--about-bg);
+    padding: 4rem 1rem;
+}
+
+#sobre-mi h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-content p {
+    margin-bottom: 1rem;
+}
