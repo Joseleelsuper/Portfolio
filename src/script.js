@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "The website is being developed by Javier Troyano using Express.js, and I, José Gallardo, am developing the Discord bot using Python."
                 ]
             },
-            image: "../assets/proyects/TNGLore.webp",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/TNGLore.webp",
         },
         {
             title: "JoseleelBot",
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "- Supporting text files, images, and audio."
                 ]
             },
-            image: "../assets/proyects/JoseleelBot.webp",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/JoseleelBot.webp",
         },
         {
             title: "Talf",
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "This was my first professional programming project that combined several tasks, such as maintaining code cleanliness, exception handling, and, above all, the learning experience that came with creating the game."
                 ]
             },
-            image: "../assets/proyects/Talf.webp",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/Talf.webp",
             github: "https://github.com/Joseleelsuper/Ardri"
         }
         // Añade más proyectos aquí
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "CS50's Introduction to Artificial Intelligence with Python",
             issuer: "HarvardX",
-            image: "../assets/certifications/GallardoCaballeroJose_CS50AIVerified.pdf",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/certifications/GallardoCaballeroJose_CS50AIVerified.pdf",
             verifyLink: "https://courses.edx.org/certificates/975705ba7ff14d7a8d6718fe3e22a1d6",
             downloadLink: "../assets/certifications/GallardoCaballeroJose_CS50AIVerified.pdf"
         },
