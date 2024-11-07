@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "- Supporting text files, images, and audio."
                 ]
             },
-            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/JoseleelBot.webp",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/JoseleelBot.webp",
         },
         {
             title: "Talf",
