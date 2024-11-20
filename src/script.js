@@ -91,8 +91,24 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/Talf.webp",
             github: "https://github.com/Joseleelsuper/Ardri"
-        }
-        // Añade más proyectos aquí
+        },
+        {
+            title: "Hunt The Wumpus - Adaptación",
+            description: {
+                es: [
+                    "Este proyecto es una adaptación del juego de Hunt The Wumpus, un juego de texto de los años 70.",
+                    "Etá adaptadapara que un algoritmo maneje un agente inteligente para conseguir la victoria.",
+                    "El agente gana si consigue el oro, y pierde si cae en la misma casilla que el Wumpus o algún pozo.",
+                ],
+                en: [
+                    "This project is an adaptation of the text-based game Hunt The Wumpus from the 70s.",
+                    "It is adapted so that an algorithm controls an intelligent agent to achieve victory.",
+                    "The agent wins if it gets the gold and loses if it falls into the same square as the Wumpus or a pit.",
+                ]
+            },
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/Wumpus.webp",
+            github: "https://github.com/Joseleelsuper/Hunt-The-Wumpus",
+        },
     ];
 
     const carousel = document.querySelector('#proyectos .carousel');
@@ -150,7 +166,11 @@ document.addEventListener('DOMContentLoaded', function() {
             verifyLink: "https://courses.edx.org/certificates/975705ba7ff14d7a8d6718fe3e22a1d6",
             downloadLink: "../assets/certifications/GallardoCaballeroJose_CS50AIVerified.pdf"
         },
-        // Añade más certificaciones aquí
+        {
+            title: "TOP Scorer - Challenge Mejor Estudiante de Informática de España 2024",
+            issuer: "Capgemini",
+            verifyLink: "https://editx.eu/en/it-challenges/205",
+        }
     ];
 
     const certCarousel = document.querySelector('#certificaciones .carousel');
@@ -174,10 +194,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="material-icons">verified</span>
                         ${language === 'es' ? 'Verificar' : 'Verify'}
                     </a>
-                    <a href="${certification.downloadLink}" class="certification-link" download>
-                        <span class="material-icons">file_download</span>
-                        ${language === 'es' ? 'Descargar Certificado' : 'Download Certificate'}
-                    </a>
+                    ${certification.downloadLink ? `
+                        <a href="${certification.downloadLink}" class="certification-link" download>
+                            <span class="material-icons">file_download</span>
+                            ${language === 'es' ? 'Descargar Certificado' : 'Download Certificate'}
+                        </a>
+                    ` : ''}
                 </div>
             </div>
         `;
