@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "The website is being developed by Javier Troyano using Express.js, and I, José Gallardo, am developing the Discord bot using Python."
                 ]
             },
-            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/TNGLore.webp",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/projects/TNGLore.webp",
         },
         {
             title: "JoseleelBot",
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "- Supporting text files, images, and audio."
                 ]
             },
-            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/JoseleelBot.webp",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/projects/JoseleelBot.webp",
         },
         {
             title: "Talf",
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "This was my first professional programming project that combined several tasks, such as maintaining code cleanliness, exception handling, and, above all, the learning experience that came with creating the game."
                 ]
             },
-            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/Talf.webp",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/projects/Talf.webp",
             github: "https://github.com/Joseleelsuper/Ardri"
         },
         {
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "The agent wins if it gets the gold and loses if it falls into the same square as the Wumpus or a pit.",
                 ]
             },
-            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/proyects/Wumpus.webp",
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/projects/Wumpus.webp",
             github: "https://github.com/Joseleelsuper/Hunt-The-Wumpus",
         },
     ];
