@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             description: {
                 es: [
                     "Este proyecto es una adaptación del juego de Hunt The Wumpus, un juego de texto de los años 70.",
-                    "Etá adaptadapara que un algoritmo maneje un agente inteligente para conseguir la victoria.",
+                    "Está adaptado para que un algoritmo maneje un agente inteligente para conseguir la victoria.",
                     "El agente gana si consigue el oro, y pierde si cae en la misma casilla que el Wumpus o algún pozo.",
                 ],
                 en: [
