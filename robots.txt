@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /assets/
+Allow: /
+Sitemap: https://joseleelportfolio.vercel.app/sitemap.xml
