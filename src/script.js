@@ -31,25 +31,27 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "TNGLore",
             description: {
                 es: [
-                    "Es un proyecto en conjunto que abarca una página web, un bot de Discord y una base de datos MongoDB.",
-                    "Lo empezamos en verano, y tiene el objetivo de conseguir cartas del lore (historia, momentos de recuerdo) de un grupo de amigos.",
+                    "Es un proyecto que abarca una página web, un bot de Discord y una base de datos MongoDB.",
+                    "Lo empecé en diciembre de 2024, y tiene el objetivo de conseguir cartas del lore (historia, momentos de recuerdo) de un grupo de amigos.",
                     "Estas cartas se podrán conseguir dentro de cofres, los cuales los obtienes de forma aleatoria hablando por un canal de texto en discord.",
                     "El bot tiene una probabilidad de responder al mensaje enviado y ofrecer un cofre al usuario con una carta aleatoria.",
                     "Cada una de las cartas tiene su propia descripción, colección y rareza.",
                     "La página web sirve para registrarse en el proyecto y poder acceder a tus cartas, las colecciones y un marketplace, cuya finalidad es poder intercambiar cartas entre usuarios.",
-                    "La página web está siendo desarrollada por Javier Troyano con Express.js y el bot de discord por mí, José Gallardo, con Python."
+                    "La página web está siendo desarrollada en python Falsk y el bot de Discord en Python."
                 ],
                 en: [
-                    "This is a collaborative project that includes a website, a Discord bot, and a MongoDB database.",
-                    "We started it in the summer with the goal of collecting lore cards (history, memorable moments) of a group of friends.",
-                    "These cards can be obtained from chests, which are randomly acquired by chatting in a Discord text channel.",
+                    "This is a project that includes a website, a Discord bot, and a MongoDB database.",
+                    "I started it in December 2024, and its goal is to collect lore cards (history, memorable moments) of a group of friends.",
+                    "These cards can be obtained from chests, which you get randomly by chatting in a Discord text channel.",
                     "The bot has a chance to respond to the sent message and offer a chest to the user with a random card.",
                     "Each card has its own description, collection, and rarity.",
                     "The website is used to register for the project and access your cards, collections, and a marketplace, which allows users to exchange cards.",
-                    "The website is being developed by Javier Troyano using Express.js, and I, José Gallardo, am developing the Discord bot using Python."
+                    "The website is being developed in Python Flask and the Discord bot in Python."
                 ]
             },
             image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/projects/TNGLore.webp",
+            github: "https://github.com/Joseleelsuper/TNGLore",
+            web: "https://tnglore.vercel.app/"
         },
         {
             title: "JoseleelBot",
