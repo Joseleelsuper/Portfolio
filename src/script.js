@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Configurar PDF.js worker
+    if (window.pdfjsLib) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
+    }
+
     // Theme toggle functionality
     const themeToggle = document.getElementById('theme-toggle');
     themeToggle.addEventListener('click', function() {
@@ -11,14 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileThemeToggle = document.getElementById('theme-toggle-mobile');
 
     window.addEventListener('scroll', () => {
-        let scrollTop = window.pageY || document.documentElement.scrollTop;
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         if (scrollTop > lastScrollTop) {
             header.classList.add('hidden');
         } else {
             header.classList.remove('hidden');
         }
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    }, false);
+    }, { passive: true });
 
     // Funcionalidad del botón de tema para móvil
     mobileThemeToggle.addEventListener('click', function() {
@@ -166,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
             issuer: "HarvardX",
             image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/certifications/GallardoCaballeroJose_CS50AIVerified.pdf",
             verifyLink: "https://courses.edx.org/certificates/975705ba7ff14d7a8d6718fe3e22a1d6",
-            downloadLink: "../assets/certifications/GallardoCaballeroJose_CS50AIVerified.pdf"
+            downloadLink: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/certifications/GallardoCaballeroJose_CS50AIVerified.pdf"
         },
         {
             title: "TOP Scorer - Challenge Mejor Estudiante de Informática de España 2024",
@@ -187,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
             card.classList.add('active');
         }
         card.innerHTML = `
-            <div class="certification-image" data-pdf="${certification.image}"></div>
+            <div class="certification-image" ${certification.image ? `data-pdf="${certification.image}"` : ''}></div>
             <div class="certification-info">
                 <h3 class="certification-title">${certification.title}</h3>
                 <p class="certification-issuer">${certification.issuer}</p>
@@ -245,33 +250,96 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Render PDFs as images
+    // Render PDFs as images - Versión mejorada
     function renderPDFs() {
+        if (!window.pdfjsLib) {
+            console.warn('PDF.js no está cargado correctamente');
+            return;
+        }
+
         const pdfElements = document.querySelectorAll('[data-pdf]');
         pdfElements.forEach(element => {
+            // Limpiar cualquier contenido existente para evitar duplicación
+            element.innerHTML = '';
+            
             const pdfUrl = element.dataset.pdf;
-            pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
-                pdf.getPage(1).then(page => {
-                    const scale = 0.5; // Reduced scale for smaller image
-                    const viewport = page.getViewport({ scale });
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    page.render(renderContext);
-                    element.appendChild(canvas);
-                    
-                    // Make the canvas responsive
-                    canvas.style.width = '100%';
-                    canvas.style.height = 'auto';
-                    canvas.style.maxWidth = '500px'; // Set a maximum width
-                });
-            });
+            
+            // Verificar que la URL no sea undefined o vacía
+            if (!pdfUrl || pdfUrl === 'undefined') {
+                console.warn('URL de PDF no válida o no definida');
+                const fallbackMsg = document.createElement('div');
+                fallbackMsg.textContent = 'No hay vista previa disponible';
+                fallbackMsg.style.padding = '20px';
+                fallbackMsg.style.textAlign = 'center';
+                element.appendChild(fallbackMsg);
+                return;
+            }
+
+            // Solo cargar PDFs desde URLs que comiencen con http:// o https://
+            if (!pdfUrl.startsWith('http://') && !pdfUrl.startsWith('https://')) {
+                console.warn('URL de PDF no válida:', pdfUrl);
+                return;
+            }
+
+            // Usar try/catch para manejar errores
+            try {
+                window.pdfjsLib.getDocument(pdfUrl).promise
+                    .then(pdf => {
+                        return pdf.getPage(1);
+                    })
+                    .then(page => {
+                        const scale = 0.5; // Reduced scale for smaller image
+                        const viewport = page.getViewport({ scale });
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        
+                        // Agregar atributos para accesibilidad
+                        canvas.setAttribute('role', 'img');
+                        canvas.setAttribute('aria-label', 'Vista previa del certificado');
+                        
+                        // Hacer responsive
+                        canvas.style.width = '100%';
+                        canvas.style.height = 'auto';
+                        canvas.style.maxWidth = '500px';
+                        
+                        return page.render(renderContext).promise.then(() => canvas);
+                    })
+                    .then(canvas => {
+                        // Limpiar el elemento nuevamente por si acaso
+                        element.innerHTML = '';
+                        element.appendChild(canvas);
+                    })
+                    .catch(err => {
+                        console.error('Error al renderizar PDF:', err);
+                        const errorMsg = document.createElement('div');
+                        errorMsg.textContent = 'Error al cargar la vista previa';
+                        errorMsg.style.padding = '20px';
+                        errorMsg.style.textAlign = 'center';
+                        element.innerHTML = ''; // Limpiar cualquier contenido previo
+                        element.appendChild(errorMsg);
+                    });
+            } catch (err) {
+                console.error('Error al procesar PDF:', err);
+            }
         });
+    }
+
+    // Cargar los recursos críticos de manera óptima
+    function loadCriticalResources() {
+        // Precarga de Material Icons (opcional)
+        if (!document.querySelector('link[rel="preload"][href*="materialicons"]')) {
+            const preloadLink = document.createElement('link');
+            preloadLink.rel = 'preload';
+            preloadLink.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+            preloadLink.as = 'style';
+            document.head.appendChild(preloadLink);
+        }
     }
 
     // Internationalization
@@ -364,5 +432,39 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.lang = language;
         updateProjectCarousel(language);
         updateCertCarousel(language);
+    }
+
+    // Inicializar recursos
+    loadCriticalResources();
+    
+    // Iniciar carruseles cuando el DOM esté listo
+    updateProjectCarousel(i18next ? i18next.language : 'es');
+    
+    // Evitar llamar a renderPDFs dos veces
+    let pdfsRendered = false;
+    function updateCertCarouselOptimized(language) {
+        certCarousel.innerHTML = '';
+        certifications.forEach((certification, index) => {
+            const card = createCertificationCard(certification, index, language);
+            certCarousel.appendChild(card);
+        });
+        certCarousel.style.transform = `translateX(-${currentCertIndex * 100}%)`;
+        updateCarouselButtons(certifications.length, certPrevButton, certNextButton);
+        
+        // Solo renderizar PDFs si no se han renderizado antes o si se ha cambiado de idioma
+        if (!pdfsRendered || i18next.language !== language) {
+            pdfsRendered = true;
+            renderPDFs();
+        }
+    }
+    
+    // Reemplazar la llamada original con la optimizada
+    updateCertCarouselOptimized(i18next ? i18next.language : 'es');
+    
+    // Si PDF.js está cargado, no necesitamos llamar a renderPDFs de nuevo aquí
+    if (!window.pdfjsLib) {
+        console.warn('PDF.js no está disponible');
+        // Intentar cargar PDF.js si no está disponible
+        window.addEventListener('pdfjsReady', renderPDFs);
     }
 });
