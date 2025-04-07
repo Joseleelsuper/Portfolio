@@ -33,6 +33,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carrusel de proyectos
     const projects = [
         {
+            title: "GreenLake Portal",
+            description: {
+                es: [
+                    "Se trata de una página web en la que los turistas accederán a todo tipo de servicios desde un solo sitio. En base a los días que el turista visite la ciudad se le proporcionará un listado de movilidad, alojamiento y festividades en esas fechas.",
+                    "Utilizamos una base de datos no relacional (MongoDB) para cargar de manera dinámica los distintos tipos de establecimientos, rutas y actividades que hay por toda la web.",
+                    "La movilidad viene dada por la empresa de vuelo Ryanair. Pensamos en una solución de transporte terrestre pero ni Alsa ni Renfe nos proporcionaban una solución aceptable.",
+                    "La página tendrá un chat Bot con información de los CSV compartidos en el repositorio de la Fase II de HP, que permitirá a los turistas preguntarles cualquier cosa referente a GreenLake Village.",
+                    "Además, una ciudad 3D estará disponible para que cualquier turista pueda observar desde su dispositivo una vista previa de lo que verá durante su turismo."
+                ],
+                en: [
+                    "This is a website where tourists can access all kinds of services from a single location. Based on the days the tourist visits the city, they will be provided with a list of mobility options, accommodations, and festivities during those dates.",
+                    "We use a non-relational database (MongoDB) to dynamically load different types of establishments, routes, and activities throughout the website.",
+                    "Mobility is provided by the airline company Ryanair. We considered ground transportation solutions, but neither Alsa nor Renfe provided an acceptable solution.",
+                    "The page will feature a chat Bot with information from CSV files shared in the Phase II HP repository, allowing tourists to ask anything about GreenLake Village.",
+                    "Additionally, a 3D city will be available for any tourist to preview what they will see during their tourism experience from their device."
+                ]
+            },
+            image: "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/projects/GreenLake.webp",
+            github: "https://github.com/Troyano19/CDSTechChallenge_FaseII",
+            web: "https://greenlake-portal.vercel.app/"
+        },
+        {
             title: "TNGLore",
             description: {
                 es: [
