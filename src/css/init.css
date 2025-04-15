@@ -1,101 +1,101 @@
-/* Estilos para la sección de inicio */
 #inicio {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 #inicio h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 #inicio h3 {
-    font-size: 1.5rem;
-    color: #007bff;
-    margin-bottom: 2rem;
+  font-size: 1.5rem;
+  color: #007bff;
+  margin-bottom: 2rem;
 }
 
 .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
 .btn {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    background-color: var(--btn-bg);
-    color: var(--btn-text);
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-.btn img, .btn .material-icons {
-    width: 20px;
-    height: 20px;
-    margin-right: 0.5rem;
+.btn img,
+.btn .material-icons {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
 }
 
 .btn:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 .linkedin-btn {
-    background-color: #0077B5;
+  background-color: #0077b5;
 }
 
 .github-btn {
-    background-color: #333;
+  background-color: #333;
 }
 
 .download-btn {
-    background-color: #28a745;
+  background-color: #28a745;
 }
 
 .languages {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
 .languages a {
-    text-decoration: none;
-    transition: transform 0.3s;
+  text-decoration: none;
+  transition: transform 0.3s;
 }
 
 .languages a:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .snake-animation {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 @media (max-width: 768px) {
-    #inicio h2 {
-        font-size: 2rem;
-    }
+  #inicio h2 {
+    font-size: 2rem;
+  }
 
-    #inicio h3 {
-        font-size: 1.2rem;
-    }
+  #inicio h3 {
+    font-size: 1.2rem;
+  }
 
-    .buttons {
-        flex-direction: column;
-    }
+  .buttons {
+    flex-direction: column;
+  }
 
-    .btn {
-        width: 100%;
-    }
+  .btn {
+    width: 100%;
+  }
 }

@@ -1,54 +1,53 @@
-/* Importa los archivos CSS de las secciones */
-@import url('./css/header.css');
-@import url('./css/init.css');
-@import url('./css/about-me.css');
-@import url('./css/projects.css');
-@import url('./css/certifications.css');
+@import url("./css/header.css");
+@import url("./css/init.css");
+@import url("./css/about-me.css");
+@import url("./css/projects.css");
+@import url("./css/certifications.css");
 
 /* Variables de colores */
 :root {
-    --bg-color: #ffffff;
-    --text-color: #333333;
-    --header-bg: #ffffff;
-    --btn-bg: #007bff;
-    --btn-text: #ffffff;
-    --about-bg: #f8f9fa;
-    --btn-hover: #0056b3;
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --header-bg: #ffffff;
+  --btn-bg: #007bff;
+  --btn-text: #ffffff;
+  --about-bg: #f8f9fa;
+  --btn-hover: #0056b3;
 }
 
 .dark-mode {
-    --bg-color: #1a1a1a;
-    --text-color: #ffffff;
-    --header-bg: #2c2c2c;
-    --btn-bg: #007bff;
-    --btn-text: #ffffff;
-    --about-bg: #2c2c2c;
-    --btn-hover: #0056b3;
+  --bg-color: #1a1a1a;
+  --text-color: #ffffff;
+  --header-bg: #2c2c2c;
+  --btn-bg: #007bff;
+  --btn-text: #ffffff;
+  --about-bg: #2c2c2c;
+  --btn-hover: #0056b3;
 }
 
 /* Reset y estilos globales */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 main {
-    padding-top: 80px;
+  padding-top: 80px;
 }
 
 section {
-    padding: 2rem 1rem;
+  padding: 2rem 1rem;
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
