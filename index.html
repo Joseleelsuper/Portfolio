@@ -1,122 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta name="description" content="Breve descripción de tu portfolio y habilidades" />
+    <meta
+      name="description"
+      content="Breve descripción de tu portfolio y habilidades"
+    />
     <meta name="keywords" content="Desarrollo web, Portfolio, Programación" />
     <meta name="author" content="José Gallardo Caballero" />
-    
+
     <meta property="og:title" content="Portfolio de José Gallardo Caballero" />
     <meta property="og:description" content="Proyectos y experiencia de José" />
-    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/icon.ico" />
+    <meta
+      property="og:image"
+      content="https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/icon.ico"
+    />
     <meta property="og:url" content="https://joseleelportfolio.vercel.app/" />
 
     <title>José Gallardo Caballero - Portfolio</title>
-    <link rel="icon" href="https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/icon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="src/styles.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      rel="icon"
+      href="https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/icon.ico"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="src/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
-</head>
-<body class="dark-mode">
+  </head>
+  <body class="dark-mode">
     <header id="main-header">
-        <div class="header-left">
-            <img src="https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/profile-picture.webp" alt="José Gallardo Caballero" class="profile-picture">
-            <div class="name-title">
-                <h1>José Gallardo Caballero</h1>
-                <p data-i18n="header.title">Graduado Ingeniería Informática</p>
-            </div>
-            <button id="theme-toggle-mobile" aria-label="Toggle dark/light mode" class="mobile-only">🌓</button>
+      <div class="header-left">
+        <img
+          src="https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/profile-picture.webp"
+          alt="José Gallardo Caballero"
+          class="profile-picture"
+        />
+        <div class="name-title">
+          <h1>José Gallardo Caballero</h1>
+          <p data-i18n="header.title">Graduado Ingeniería Informática</p>
         </div>
-        <nav class="header-right">
-            <a href="#inicio" data-i18n="nav.home">Inicio</a>
-            <a href="#sobre-mi" data-i18n="nav.about">Sobre mí</a>
-            <a href="#proyectos" data-i18n="nav.projects">Proyectos</a>
-            <a href="#certificaciones" data-i18n="nav.certifications">Certificaciones</a>
-            <button id="theme-toggle" aria-label="Toggle dark/light mode" class="desktop-only">🌓</button>
-        </nav>
+        <button
+          id="theme-toggle-mobile"
+          aria-label="Toggle dark/light mode"
+          class="mobile-only"
+        >
+          🌓
+        </button>
+      </div>
+      <nav class="header-right">
+        <a href="#inicio" data-i18n="nav.home">Inicio</a>
+        <a href="#sobre-mi" data-i18n="nav.about">Sobre mí</a>
+        <a href="#proyectos" data-i18n="nav.projects">Proyectos</a>
+        <a href="#certificaciones" data-i18n="nav.certifications"
+          >Certificaciones</a
+        >
+        <button
+          id="theme-toggle"
+          aria-label="Toggle dark/light mode"
+          class="desktop-only"
+        >
+          🌓
+        </button>
+      </nav>
     </header>
 
     <main>
-        <section id="inicio">
-            <h2>Gallardo Caballero José</h2>
-            <h3 data-i18n="home.degree">Graduado Ingeniería Informática</h3>
-            <div class="buttons">
-                <a href="https://www.linkedin.com/in/jose-gallardo-caballero/" target="_blank" rel="noopener noreferrer" class="btn linkedin-btn">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/linkedin.svg" alt="LinkedIn" />
-                    <span>LinkedIn</span>
-                </a>
-                <a href="https://github.com/Joseleelsuper" target="_blank" rel="noopener noreferrer" class="btn github-btn">
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/github.svg" alt="GitHub" />
-                    <span>GitHub</span>
-                </a>
-                <a href="mailto:JoseGallardoC@protonmail.com" class="btn email-btn">
-                    <span class="material-icons">email</span>
-                    <span>Email</span>
-                </a>
-                <a href="assets/GallardoCaballeroJose_CV.pdf" download class="btn download-btn">
-                    <span class="material-icons">file_download</span>
-                    <span data-i18n="home.downloadCV">Descargar CV</span>
-                </a>
-            </div>
-            <div class="languages">
-                <a href="https://es.wikipedia.org/wiki/Python" target="_blank" rel="noopener noreferrer">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="30" alt="python logo"  />
-                </a>
-                <a href="https://es.wikipedia.org/wiki/Java_(lenguaje_de_programaci%C3%B3n)" target="_blank" rel="noopener noreferrer">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" height="30" alt="java logo"  />
-                </a>
-                <a href="https://es.wikipedia.org/wiki/C_(lenguaje_de_programaci%C3%B3n)" target="_blank" rel="noopener noreferrer">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" height="30" alt="C logo"  />
-                </a>
-                <a href="https://es.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener noreferrer">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="30" alt="html5 logo"  />
-                </a>
-                <a href="https://es.wikipedia.org/wiki/CSS" target="_blank" rel="noopener noreferrer">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" height="30" alt="css3 logo"  />
-                </a>
-                <a href="https://es.wikipedia.org/wiki/JavaScript" target="_blank" rel="noopener noreferrer">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="30" alt="javascript logo"  />
-                </a>
-            </div>
-            <img src="https://raw.githubusercontent.com/Joseleelsuper/Joseleelsuper/output/snake.svg" alt="Snake animation" class="snake-animation" />
-        </section>
+      <section id="inicio">
+        <h2>Gallardo Caballero José</h2>
+        <h3 data-i18n="home.degree">Graduado Ingeniería Informática</h3>
+        <div class="buttons">
+          <a
+            href="https://www.linkedin.com/in/jose-gallardo-caballero/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn linkedin-btn"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/linkedin.svg"
+              alt="LinkedIn"
+            />
+            <span>LinkedIn</span>
+          </a>
+          <a
+            href="https://github.com/Joseleelsuper"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn github-btn"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/github.svg"
+              alt="GitHub"
+            />
+            <span>GitHub</span>
+          </a>
+          <a href="mailto:JoseGallardoC@protonmail.com" class="btn email-btn">
+            <span class="material-icons">email</span>
+            <span>Email</span>
+          </a>
+          <a
+            href="https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/GallardoCaballeroJose_CV.pdf"
+            download
+            class="btn download-btn"
+          >
+            <span class="material-icons">file_download</span>
+            <span data-i18n="home.downloadCV">Descargar CV</span>
+          </a>
+        </div>
+        <div class="languages">
+          <a
+            href="https://es.wikipedia.org/wiki/Python"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+              height="30"
+              alt="python logo"
+            />
+          </a>
+          <a
+            href="https://es.wikipedia.org/wiki/Java_(lenguaje_de_programaci%C3%B3n)"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+              height="30"
+              alt="java logo"
+            />
+          </a>
+          <a
+            href="https://es.wikipedia.org/wiki/C_(lenguaje_de_programaci%C3%B3n)"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg"
+              height="30"
+              alt="C logo"
+            />
+          </a>
+          <a
+            href="https://es.wikipedia.org/wiki/HTML5"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+              height="30"
+              alt="html5 logo"
+            />
+          </a>
+          <a
+            href="https://es.wikipedia.org/wiki/CSS"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+              height="30"
+              alt="css3 logo"
+            />
+          </a>
+          <a
+            href="https://es.wikipedia.org/wiki/JavaScript"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+              height="30"
+              alt="javascript logo"
+            />
+          </a>
+        </div>
+        <img
+          src="https://raw.githubusercontent.com/Joseleelsuper/Joseleelsuper/output/snake.svg"
+          alt="Snake animation"
+          class="snake-animation"
+        />
+      </section>
 
-        <section id="sobre-mi">
-            <h2 data-i18n="about.title">Sobre mí</h2>
-            <div class="about-content">
-                <p data-i18n="about.intro">Me llamo José Gallardo Caballero. Vivo en León, pero actualmente estoy estudiando en la Escuela Politécnica Superior de la Universidad de Burgos.</p>
-                <p data-i18n="about.skills">Estoy familiarizado con la programación de distintos lenguajes como Python y Java, entre otros.</p>
-                <p data-i18n="about.ai">Sé crear IAs simples, que aprenden a realizar una tarea durante el transcurso de su vida con Python.</p>
-                <p data-i18n="about.ambition">Mi ambición es convertir problemas complejos en soluciones tecnológicas eficientes. Trabajando en equipo, he realizado proyectos que fortalecen mis habilidades analíticas y técnicas. Esta experiencia me impulsa a seguir creciendo profesionalmente y aportar significativamente al campo de la ingeniería informática.</p>
-            </div>
-        </section>
+      <section id="sobre-mi">
+        <h2 data-i18n="about.title">Sobre mí</h2>
+        <div class="about-content">
+          <p data-i18n="about.intro">
+            Me llamo José Gallardo Caballero. Vivo en León, pero actualmente
+            estoy estudiando en la Escuela Politécnica Superior de la
+            Universidad de Burgos.
+          </p>
+          <p data-i18n="about.skills">
+            Estoy familiarizado con la programación de distintos lenguajes como
+            Python y Java, entre otros.
+          </p>
+          <p data-i18n="about.ai">
+            Sé crear IAs simples, que aprenden a realizar una tarea durante el
+            transcurso de su vida con Python.
+          </p>
+          <p data-i18n="about.ambition">
+            Mi ambición es convertir problemas complejos en soluciones
+            tecnológicas eficientes. Trabajando en equipo, he realizado
+            proyectos que fortalecen mis habilidades analíticas y técnicas. Esta
+            experiencia me impulsa a seguir creciendo profesionalmente y aportar
+            significativamente al campo de la ingeniería informática.
+          </p>
+        </div>
+      </section>
 
-        <section id="proyectos">
-            <h2 data-i18n="projects.title">Proyectos</h2>
-            <div class="carousel-container">
-                <div class="carousel">
-                    <!-- Los proyectos se añadirán dinámicamente con JavaScript -->
-                </div>
-                <button class="carousel-button prev">&lt;</button>
-                <button class="carousel-button next">&gt;</button>
-            </div>
-        </section>
+      <section id="proyectos">
+        <h2 data-i18n="projects.title">Proyectos</h2>
+        <div class="carousel-container">
+          <div class="carousel">
+            <!-- Los proyectos se añadirán dinámicamente con JavaScript -->
+          </div>
+          <button class="carousel-button prev">&lt;</button>
+          <button class="carousel-button next">&gt;</button>
+        </div>
+      </section>
 
-        <section id="certificaciones">
-            <h2 data-i18n="certifications.title">Certificaciones</h2>
-            <div class="carousel-container">
-                <div class="carousel">
-                    <!-- Las certificaciones se añadirán dinámicamente con JavaScript -->
-                </div>
-                <button class="carousel-button prev">&lt;</button>
-                <button class="carousel-button next">&gt;</button>
-            </div>
-        </section>
+      <section id="certificaciones">
+        <h2 data-i18n="certifications.title">Certificaciones</h2>
+        <div class="carousel-container">
+          <div class="carousel">
+            <!-- Las certificaciones se añadirán dinámicamente con JavaScript -->
+          </div>
+          <button class="carousel-button prev">&lt;</button>
+          <button class="carousel-button next">&gt;</button>
+        </div>
+      </section>
     </main>
     <script src="src/script.js"></script>
-</body>
+  </body>
 </html>
