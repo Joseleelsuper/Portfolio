@@ -123,15 +123,20 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   ];
 
-  const projectsGrid = document.querySelector("#proyectos .projects-grid");
-  const toolsGrid = document.querySelector("#proyectos .tools-grid");
+  const projectsWrapper = document.querySelector("#proyectos .projects-wrapper");
+  const toolsWrapper = document.querySelector("#proyectos .tools-wrapper");
+  const projectsCarousel = document.querySelector("#proyectos .projects-carousel");
+  const toolsCarousel = document.querySelector("#proyectos .tools-carousel");
   const certificationsGrid = document.querySelector(
     "#certificaciones .certifications-grid"
   );
 
-  function createProjectCard(project, language) {
+  function createProjectCard(project, language, active) {
     const card = document.createElement("div");
-    card.className = "project-card";
+    card.className = "project-card carousel-item";
+    if (active) {
+      card.classList.add("active");
+    }
     // Mejorar visualización: dividir por dobles saltos de línea para párrafos y detectar listas
     const paragraphs = project.description[language].split(/\n\n+/);
     let descriptionHtml = "";
@@ -173,19 +178,37 @@ document.addEventListener("DOMContentLoaded", function () {
     return card;
   }
 
-  function renderProjects(language) {
-    projectsGrid.innerHTML = "";
-    projects.forEach((project) => {
-      const card = createProjectCard(project, language);
-      projectsGrid.appendChild(card);
-    });
-  }
+  function initCircularCarousel(wrapper, carousel, items, language) {
+    let radius = wrapper.offsetWidth / 2.3;
+    const angleStep = 360 / items.length;
+    let currentIndex = 0;
 
-  function renderTools(language) {
-    toolsGrid.innerHTML = "";
-    tools.forEach((tool) => {
-      const card = createProjectCard(tool, language);
-      toolsGrid.appendChild(card);
+    carousel.innerHTML = "";
+    items.forEach((item, index) => {
+      const card = createProjectCard(item, language, index === 0);
+      const angle = angleStep * index;
+      card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+      card.addEventListener("click", () => rotateTo(index));
+      carousel.appendChild(card);
+    });
+
+    function rotateTo(index) {
+      currentIndex = index;
+      carousel.style.transform = `translateZ(-${radius}px) rotateY(${-angleStep * currentIndex}deg)`;
+      const cards = carousel.querySelectorAll(".carousel-item");
+      cards.forEach((c, i) => {
+        c.classList.toggle("active", i === currentIndex);
+      });
+    }
+
+    window.addEventListener("resize", () => {
+      radius = wrapper.offsetWidth / 2.3;
+      const cards = carousel.querySelectorAll(".carousel-item");
+      cards.forEach((c, i) => {
+        const angle = angleStep * i;
+        c.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+      });
+      rotateTo(currentIndex);
     });
   }
 
@@ -447,8 +470,8 @@ document.addEventListener("DOMContentLoaded", function () {
       element.textContent = i18next.t(key);
     });
     document.documentElement.lang = language;
-    renderProjects(language);
-    renderTools(language);
+    initCircularCarousel(projectsWrapper, projectsCarousel, projects, language);
+    initCircularCarousel(toolsWrapper, toolsCarousel, tools, language);
     renderCertificationsOptimized(language);
   }
 
@@ -456,8 +479,18 @@ document.addEventListener("DOMContentLoaded", function () {
   loadCriticalResources();
 
   // Renderizar contenido inicial
-  renderProjects(i18next ? i18next.language : "es");
-  renderTools(i18next ? i18next.language : "es");
+  initCircularCarousel(
+    projectsWrapper,
+    projectsCarousel,
+    projects,
+    i18next ? i18next.language : "es"
+  );
+  initCircularCarousel(
+    toolsWrapper,
+    toolsCarousel,
+    tools,
+    i18next ? i18next.language : "es"
+  );
 
   // Evitar llamar a renderPDFs dos veces
   let pdfsRendered = false;
