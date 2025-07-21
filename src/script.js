@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.classList.toggle("dark-mode");
   });
 
-  // Carrusel de proyectos
+  // Lista de proyectos
   const projects = [
     {
       title: "UpdateMe",
@@ -101,17 +101,37 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   ];
 
-  const carousel = document.querySelector("#proyectos .carousel");
-  const prevButton = document.querySelector("#proyectos .carousel-button.prev");
-  const nextButton = document.querySelector("#proyectos .carousel-button.next");
-  let currentIndex = 0;
+  const tools = [
+    {
+      title: "XML Diagram Tree Visualizer",
+      description: {
+        es: "Herramienta online para visualizar diagramas de arboles XML.",
+        en: "Online tool to visualize XML tree diagrams.",
+      },
+      image: "assets/tools/placeholder.svg",
+      github: "https://github.com/Joseleelsuper/XMLDiagramTreeVisualizer",
+      web: "https://joseleelsuper.github.io/XMLDiagramTreeVisualizer/",
+    },
+    {
+      title: "Stardew Host Swap",
+      description: {
+        es: "Script para intercambiar partidas de Stardew Valley en cooperativo.",
+        en: "Script to swap Stardew Valley multiplayer saves between hosts.",
+      },
+      image: "assets/tools/placeholder.svg",
+      github: "https://github.com/Joseleelsuper/stardew-host-swap",
+    },
+  ];
 
-  function createProjectCard(project, index, language) {
+  const projectsGrid = document.querySelector("#proyectos .projects-grid");
+  const toolsGrid = document.querySelector("#proyectos .tools-grid");
+  const certificationsGrid = document.querySelector(
+    "#certificaciones .certifications-grid"
+  );
+
+  function createProjectCard(project, language) {
     const card = document.createElement("div");
     card.className = "project-card";
-    if (index === currentIndex) {
-      card.classList.add("active");
-    }
     // Mejorar visualización: dividir por dobles saltos de línea para párrafos y detectar listas
     const paragraphs = project.description[language].split(/\n\n+/);
     let descriptionHtml = "";
@@ -153,27 +173,23 @@ document.addEventListener("DOMContentLoaded", function () {
     return card;
   }
 
-  function updateProjectCarousel(language) {
-    carousel.innerHTML = "";
-    projects.forEach((project, index) => {
-      const card = createProjectCard(project, index, language);
-      carousel.appendChild(card);
+  function renderProjects(language) {
+    projectsGrid.innerHTML = "";
+    projects.forEach((project) => {
+      const card = createProjectCard(project, language);
+      projectsGrid.appendChild(card);
     });
-    carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-    updateCarouselButtons(projects.length, prevButton, nextButton);
   }
 
-  function moveProjectCarousel(direction) {
-    currentIndex =
-      (currentIndex + direction + projects.length) % projects.length;
-    carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-    updateActiveCard(carousel, currentIndex);
+  function renderTools(language) {
+    toolsGrid.innerHTML = "";
+    tools.forEach((tool) => {
+      const card = createProjectCard(tool, language);
+      toolsGrid.appendChild(card);
+    });
   }
 
-  prevButton.addEventListener("click", () => moveProjectCarousel(-1));
-  nextButton.addEventListener("click", () => moveProjectCarousel(1));
-
-  // Carrusel de certificaciones
+  // Listado de certificaciones
   const certifications = [
     {
       title: "CS50's Introduction to Artificial Intelligence with Python",
@@ -193,21 +209,10 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   ];
 
-  const certCarousel = document.querySelector("#certificaciones .carousel");
-  const certPrevButton = document.querySelector(
-    "#certificaciones .carousel-button.prev"
-  );
-  const certNextButton = document.querySelector(
-    "#certificaciones .carousel-button.next"
-  );
-  let currentCertIndex = 0;
 
-  function createCertificationCard(certification, index, language) {
+  function createCertificationCard(certification, language) {
     const card = document.createElement("div");
     card.className = "certification-card";
-    if (index === currentCertIndex) {
-      card.classList.add("active");
-    }
     card.innerHTML = `
             <div class="certification-image" ${
               certification.image ? `data-pdf="${certification.image}"` : ""
@@ -244,49 +249,13 @@ document.addEventListener("DOMContentLoaded", function () {
     return card;
   }
 
-  function updateCertCarousel(language) {
-    certCarousel.innerHTML = "";
-    certifications.forEach((certification, index) => {
-      const card = createCertificationCard(certification, index, language);
-      certCarousel.appendChild(card);
+  function renderCertifications(language) {
+    certificationsGrid.innerHTML = "";
+    certifications.forEach((certification) => {
+      const card = createCertificationCard(certification, language);
+      certificationsGrid.appendChild(card);
     });
-    certCarousel.style.transform = `translateX(-${currentCertIndex * 100}%)`;
-    updateCarouselButtons(
-      certifications.length,
-      certPrevButton,
-      certNextButton
-    );
     renderPDFs();
-  }
-
-  function moveCertCarousel(direction) {
-    currentCertIndex =
-      (currentCertIndex + direction + certifications.length) %
-      certifications.length;
-    certCarousel.style.transform = `translateX(-${currentCertIndex * 100}%)`;
-    updateActiveCard(certCarousel, currentCertIndex);
-  }
-
-  certPrevButton.addEventListener("click", () => moveCertCarousel(-1));
-  certNextButton.addEventListener("click", () => moveCertCarousel(1));
-
-  function updateCarouselButtons(totalItems, prevButton, nextButton) {
-    const shouldHideButtons = totalItems <= 1;
-    prevButton.classList.toggle("hidden", shouldHideButtons);
-    nextButton.classList.toggle("hidden", shouldHideButtons);
-  }
-
-  function updateActiveCard(carouselElement, activeIndex) {
-    const cards = carouselElement.querySelectorAll(
-      ".project-card, .certification-card"
-    );
-    cards.forEach((card, index) => {
-      if (index === activeIndex) {
-        card.classList.add("active");
-      } else {
-        card.classList.remove("active");
-      }
-    });
   }
 
   // Render PDFs as images - Versión mejorada
@@ -419,6 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             projects: {
               title: "Proyectos",
+              tools: "Herramientas",
             },
             certifications: {
               title: "Certificaciones",
@@ -454,6 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             projects: {
               title: "Projects",
+              tools: "Tools",
             },
             certifications: {
               title: "Certifications",
@@ -466,8 +437,6 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     function (err, t) {
       updateContent(i18next.language);
-      updateProjectCarousel(i18next.language);
-      updateCertCarousel(i18next.language);
     }
   );
 
@@ -478,40 +447,34 @@ document.addEventListener("DOMContentLoaded", function () {
       element.textContent = i18next.t(key);
     });
     document.documentElement.lang = language;
-    updateProjectCarousel(language);
-    updateCertCarousel(language);
+    renderProjects(language);
+    renderTools(language);
+    renderCertificationsOptimized(language);
   }
 
   // Inicializar recursos
   loadCriticalResources();
 
-  // Iniciar carruseles cuando el DOM esté listo
-  updateProjectCarousel(i18next ? i18next.language : "es");
+  // Renderizar contenido inicial
+  renderProjects(i18next ? i18next.language : "es");
+  renderTools(i18next ? i18next.language : "es");
 
   // Evitar llamar a renderPDFs dos veces
   let pdfsRendered = false;
-  function updateCertCarouselOptimized(language) {
-    certCarousel.innerHTML = "";
-    certifications.forEach((certification, index) => {
-      const card = createCertificationCard(certification, index, language);
-      certCarousel.appendChild(card);
+  function renderCertificationsOptimized(language) {
+    certificationsGrid.innerHTML = "";
+    certifications.forEach((cert) => {
+      const card = createCertificationCard(cert, language);
+      certificationsGrid.appendChild(card);
     });
-    certCarousel.style.transform = `translateX(-${currentCertIndex * 100}%)`;
-    updateCarouselButtons(
-      certifications.length,
-      certPrevButton,
-      certNextButton
-    );
 
-    // Solo renderizar PDFs si no se han renderizado antes o si se ha cambiado de idioma
     if (!pdfsRendered || i18next.language !== language) {
       pdfsRendered = true;
       renderPDFs();
     }
   }
 
-  // Reemplazar la llamada original con la optimizada
-  updateCertCarouselOptimized(i18next ? i18next.language : "es");
+  renderCertificationsOptimized(i18next ? i18next.language : "es");
 
   // Si PDF.js está cargado, no necesitamos llamar a renderPDFs de nuevo aquí
   if (!window.pdfjsLib) {
