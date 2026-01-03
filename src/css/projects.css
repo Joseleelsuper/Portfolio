@@ -297,8 +297,8 @@
   }
 }
 
-/* Pantallas con aspect ratio < 16:9 (más verticales) */
-@media (max-aspect-ratio: 4/3) and (min-width: 600px) {
+/* Pantallas medianas (Tablets y pantallas pequeñas) */
+@media (max-width: 1024px) {
   #proyectos {
     min-height: auto;
     padding: var(--spacing-2xl) var(--spacing-lg);
@@ -311,7 +311,8 @@
   
   .project-image {
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
+    margin-bottom: var(--spacing-md);
   }
   
   .project-description {
@@ -319,8 +320,8 @@
   }
 }
 
-/* Pantallas muy verticales (smartphones portrait) */
-@media (max-aspect-ratio: 9/16) {
+/* Pantallas pequeñas (Móviles) */
+@media (max-width: 600px) {
   #proyectos {
     padding: var(--spacing-xl) var(--spacing-md);
     min-height: auto;

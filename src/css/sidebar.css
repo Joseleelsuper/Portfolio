@@ -300,8 +300,8 @@
   }
 }
 
-/* Pantallas muy verticales (smartphones portrait) */
-@media (max-aspect-ratio: 9/16) {
+/* Pantallas pequeñas (Móviles) */
+@media (max-width: 600px) {
   .sidebar-header {
     padding: var(--spacing-md);
   }
