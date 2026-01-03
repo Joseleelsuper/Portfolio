@@ -1,3 +1,7 @@
+/* =====================================================
+   SECCIÓN INICIO / HERO
+   ===================================================== */
+
 #inicio {
   min-height: 100vh;
   display: flex;
@@ -5,101 +9,313 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de fondo con gradiente */
+#inicio::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 20% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 107, 53, 0.08) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
 }
 
 #inicio h2 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: var(--font-size-5xl);
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
 }
 
 #inicio h3 {
-  font-size: 1.5rem;
-  color: #007bff;
-  margin-bottom: 2rem;
+  font-size: var(--font-size-xl);
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-2xl);
+  font-weight: 500;
 }
 
+/* Botones de acción */
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-2xl);
   flex-wrap: wrap;
 }
 
 .btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  padding: 0.5rem 1rem;
-  background-color: var(--btn-bg);
-  color: var(--btn-text);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
   text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-base);
+  cursor: pointer;
 }
 
 .btn img,
 .btn .material-icons {
   width: 20px;
   height: 20px;
-  margin-right: 0.5rem;
+  flex-shrink: 0;
 }
 
 .btn:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-color-hover);
+  color: var(--color-text-primary);
 }
 
-.linkedin-btn {
-  background-color: #0077b5;
+/* Invertir iconos en hover para que sean visibles */
+.btn:hover img {
+  filter: brightness(0) invert(1);
 }
 
-.github-btn {
-  background-color: #333;
+/* Estilos específicos de botones */
+.linkedin-btn:hover {
+  background: var(--color-linkedin);
+  border-color: var(--color-linkedin);
+  color: #ffffff;
 }
 
-.fiverr-btn {
-  background-color: #1dbf73;
+.github-btn:hover {
+  background: #6e5494;
+  border-color: #6e5494;
+  color: #ffffff;
+}
+
+.email-btn:hover {
+  background: var(--color-email);
+  border-color: var(--color-email);
+  color: #ffffff;
+}
+
+.fiverr-btn:hover {
+  background: var(--color-fiverr);
+  border-color: var(--color-fiverr);
+  color: #ffffff;
 }
 
 .download-btn {
-  background-color: #28a745;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  border-color: var(--color-accent);
+  color: #ffffff;
 }
 
+.download-btn:hover {
+  background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 100%);
+  box-shadow: var(--shadow-glow);
+  color: #ffffff;
+}
+
+/* Lenguajes de programación */
 .languages {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
   flex-wrap: wrap;
 }
 
 .languages a {
-  text-decoration: none;
-  transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-base);
 }
 
 .languages a:hover {
-  transform: scale(1.1);
+  transform: translateY(-4px) scale(1.1);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-glow);
 }
 
+.languages a img {
+  height: 28px;
+  width: 28px;
+  transition: transform var(--transition-base);
+}
+
+/* Snake animation */
 .snake-animation {
   max-width: 100%;
+  width: 700px;
   height: auto;
+  border-radius: var(--radius-xl);
+  opacity: 0.8;
+  transition: opacity var(--transition-base);
 }
 
+.snake-animation:hover {
+  opacity: 1;
+}
+
+/* =====================================================
+   RESPONSIVE - SECCIÓN INICIO
+   ===================================================== */
 @media (max-width: 768px) {
   #inicio h2 {
-    font-size: 2rem;
+    font-size: var(--font-size-3xl);
   }
 
   #inicio h3 {
-    font-size: 1.2rem;
+    font-size: var(--font-size-lg);
   }
 
   .buttons {
     flex-direction: column;
+    width: 100%;
+    max-width: 300px;
   }
 
   .btn {
     width: 100%;
+    justify-content: center;
+  }
+  
+  .languages a {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .languages a img {
+    height: 24px;
+    width: 24px;
   }
 }
+
+@media (max-width: 480px) {
+  #inicio h2 {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .snake-animation {
+    width: 100%;
+  }
+}
+
+/* Pantallas con aspect ratio < 16:9 (más verticales) */
+@media (max-aspect-ratio: 4/3) and (min-width: 600px) {
+  #inicio {
+    min-height: 100svh;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+  
+  #inicio h2 {
+    font-size: var(--font-size-4xl);
+  }
+  
+  .hero-content {
+    max-width: 90%;
+  }
+  
+  .buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Pantallas muy verticales (smartphones portrait) */
+@media (max-aspect-ratio: 9/16) {
+  #inicio {
+    padding-top: calc(80px + var(--spacing-xl));
+  }
+  
+  #inicio h2 {
+    font-size: var(--font-size-2xl);
+  }
+  
+  #inicio h3 {
+    font-size: var(--font-size-base);
+  }
+  
+  .buttons {
+    gap: var(--spacing-sm);
+  }
+  
+  .btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-xs);
+  }
+  
+  .languages {
+    gap: var(--spacing-md);
+  }
+  
+  .languages a {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .languages a img {
+    height: 20px;
+    width: 20px;
+  }
+  
+  .snake-animation {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Pantallas landscape con altura limitada */
+@media (max-height: 500px) and (orientation: landscape) {
+  #inicio {
+    min-height: auto;
+    padding: var(--spacing-lg);
+  }
+  
+  #inicio h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  #inicio h3 {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .buttons {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .languages {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .snake-animation {
+    max-width: 400px;
+  }
+}
+
