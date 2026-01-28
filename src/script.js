@@ -49,7 +49,7 @@ const Utils = {
     let html = '';
     
     paragraphs.forEach(paragraph => {
-      if (/^- /.test(paragraph.trim()) || paragraph.trim().includes('\n- ')) {
+      if (paragraph.trim().startsWith('- ') || paragraph.trim().includes('\n- ')) {
         const items = paragraph
           .split(/\n/)
           .filter(line => line.trim().startsWith('-'))
@@ -57,7 +57,7 @@ const Utils = {
           .join('');
         html += `<ul>${items}</ul>`;
       } else {
-        html += `<p>${paragraph.replace(/\n/g, ' ')}</p>`;
+        html += `<p>${paragraph.replaceAll('\n', ' ')}</p>`;
       }
     });
     
@@ -183,7 +183,7 @@ const HeaderModule = {
       this.elements.header.classList.remove('hidden');
     }
     
-    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    this.lastScrollTop = Math.max(0, scrollTop);
   }
 };
 
