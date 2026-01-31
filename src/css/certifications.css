@@ -79,6 +79,14 @@
   border-radius: var(--radius-lg);
 }
 
+/* Certification Image Preview */
+.certification-image .certification-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+}
+
 /* Certification Info */
 .certification-info {
   flex: 1;

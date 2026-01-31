@@ -321,6 +321,7 @@ const ProjectsModule = {
 
 const CertificationsModule = {
   carousel: null,
+  imageExtensions: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'],
 
   init(language) {
     // CERTIFICATIONS_DATA viene del archivo certifications.js
@@ -341,6 +342,24 @@ const CertificationsModule = {
     }
   },
 
+  /**
+   * Detecta si una URL es una imagen basándose en la extensión
+   */
+  isImageUrl(url) {
+    if (!url) return false;
+    const extension = url.split('.').pop()?.toLowerCase().split('?')[0];
+    return this.imageExtensions.includes(extension);
+  },
+
+  /**
+   * Detecta si una URL es un PDF basándose en la extensión
+   */
+  isPdfUrl(url) {
+    if (!url) return false;
+    const extension = url.split('.').pop()?.toLowerCase().split('?')[0];
+    return extension === 'pdf';
+  },
+
   renderCard(certification, index, currentIndex, language) {
     const card = document.createElement('div');
     card.className = `certification-card ${index === currentIndex ? 'active' : ''}`;
@@ -348,14 +367,28 @@ const CertificationsModule = {
     const verifyText = language === 'es' ? 'Verificar' : 'Verify';
     const downloadText = language === 'es' ? 'Descargar' : 'Download';
     const hasImage = Boolean(certification.image);
+    const isImage = this.isImageUrl(certification.image);
+    const isPdf = this.isPdfUrl(certification.image);
+
+    let imageContent = '';
+    if (hasImage && isImage) {
+      // Es una imagen regular, mostrarla directamente
+      imageContent = `<img src="${certification.image}" alt="${certification.title}" class="certification-preview">`;
+    } else if (hasImage && isPdf) {
+      // Es un PDF, se renderizará después con PDF.js
+      // imageContent remains empty, PDF will be rendered later
+    } else {
+      // No hay imagen, mostrar badge
+      imageContent = `
+        <div class="certification-badge">
+          <span class="material-icons">workspace_premium</span>
+        </div>
+      `;
+    }
 
     card.innerHTML = `
-      <div class="certification-image" ${hasImage ? `data-pdf="${certification.image}"` : ''}>
-        ${hasImage ? '' : `
-          <div class="certification-badge">
-            <span class="material-icons">workspace_premium</span>
-          </div>
-        `}
+      <div class="certification-image" ${hasImage && isPdf ? `data-pdf="${certification.image}"` : ''}>
+        ${imageContent}
       </div>
       <div class="certification-info">
         <h3 class="certification-title">${certification.title}</h3>
