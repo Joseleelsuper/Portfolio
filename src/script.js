@@ -257,61 +257,53 @@ const CarouselModule = {
 // =============================================================================
 
 const ProjectsModule = {
-  carousel: null,
-
   init(language) {
-    // PROJECTS_DATA viene del archivo projects.js
     if (typeof PROJECTS_DATA === 'undefined') {
       console.error('PROJECTS_DATA no está definido. Asegúrate de cargar projects.js');
       return;
     }
-
-    this.carousel = CarouselModule.create(
-      '#proyectos .carousel-container',
-      PROJECTS_DATA,
-      this.renderCard.bind(this)
-    );
-
-    if (this.carousel) {
-      this.carousel.render(language);
-    }
+    this.render(language);
   },
 
-  renderCard(project, index, currentIndex, language) {
-    const card = document.createElement('div');
-    card.className = `project-card ${index === currentIndex ? 'active' : ''}`;
-    
-    const descriptionHtml = Utils.parseDescription(project.description[language]);
+  render(language) {
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
 
-    card.innerHTML = `
-      <img src="${project.image}" alt="${project.title}" class="project-image">
-      <div class="project-info">
-        <h3 class="project-title">${project.title}</h3>
-        <div class="project-description">${descriptionHtml}</div>
-        <div class="project-links">
-          ${project.github ? `
-            <a href="${project.github}" class="project-link" target="_blank" rel="noopener noreferrer">
-              <span class="material-icons">code</span>
-              <span>GitHub</span>
-            </a>
-          ` : ''}
-          ${project.web ? `
-            <a href="${project.web}" class="project-link" target="_blank" rel="noopener noreferrer">
-              <span class="material-icons">language</span>
-              <span>Web</span>
-            </a>
-          ` : ''}
+    grid.innerHTML = '';
+    PROJECTS_DATA.forEach(project => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+
+      const descriptionHtml = Utils.parseDescription(project.description[language]);
+
+      card.innerHTML = `
+        <img src="${project.image}" alt="${project.title}" class="project-image">
+        <div class="project-info">
+          <h3 class="project-title">${project.title}</h3>
+          <div class="project-description">${descriptionHtml}</div>
+          <div class="project-links">
+            ${project.github ? `
+              <a href="${project.github}" class="project-link" target="_blank" rel="noopener noreferrer">
+                <span class="material-icons">code</span>
+                <span>GitHub</span>
+              </a>
+            ` : ''}
+            ${project.web ? `
+              <a href="${project.web}" class="project-link" target="_blank" rel="noopener noreferrer">
+                <span class="material-icons">language</span>
+                <span>Web</span>
+              </a>
+            ` : ''}
+          </div>
         </div>
-      </div>
-    `;
+      `;
 
-    return card;
+      grid.appendChild(card);
+    });
   },
 
   update(language) {
-    if (this.carousel) {
-      this.carousel.render(language);
-    }
+    this.render(language);
   }
 };
 

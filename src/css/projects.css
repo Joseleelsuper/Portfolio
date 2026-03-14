@@ -9,6 +9,20 @@
   flex-direction: column;
 }
 
+/* Grid de proyectos */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-xl);
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 #proyectos h2 {
   font-size: var(--font-size-4xl);
   font-weight: 700;
