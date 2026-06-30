@@ -235,6 +235,7 @@ section:nth-child(even) {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
   gap: var(--spacing-lg);
 }
 

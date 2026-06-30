@@ -72,17 +72,6 @@ const Utils = {
     });
 
     return html;
-  },
-
-  getDescriptionExcerpt(text = '', maxLength = 185) {
-    const firstParagraph = text.split(/\n\n+/).find(paragraph => paragraph.trim()) || text;
-    const normalized = firstParagraph.replace(/\s+/g, ' ').trim();
-
-    if (normalized.length <= maxLength) {
-      return normalized;
-    }
-
-    return `${normalized.slice(0, maxLength).trimEnd()}...`;
   }
 };
 
@@ -215,6 +204,7 @@ const ProjectsModule = {
     toggle: null
   },
   expanded: false,
+  expandedDescriptions: new Set(),
 
   init(language) {
     if (typeof PROJECTS_DATA === 'undefined') {
@@ -241,17 +231,35 @@ const ProjectsModule = {
     });
 
     this.updateToggle(language);
+    this.updateDescriptionToggles(language);
   },
 
   renderCard(project, language, variant = 'compact') {
     const card = document.createElement('article');
     card.className = `project-card project-card--${variant}`;
 
+    const key = this.getProjectKey(project);
     const title = Utils.escapeHTML(project.title);
     const description = project.description?.[language] || project.description?.[CONFIG.defaultLanguage] || '';
+    const isDescriptionExpanded = this.expandedDescriptions.has(key);
+    const descriptionId = `project-description-${key}`;
     const descriptionContent = variant === 'detail'
       ? `<div class="project-description">${Utils.parseDescription(description)}</div>`
-      : `<p class="project-excerpt">${Utils.escapeHTML(Utils.getDescriptionExcerpt(description))}</p>`;
+      : `
+        <div class="project-description project-description--compact ${isDescriptionExpanded ? 'expanded' : ''}" id="${descriptionId}">
+          ${Utils.parseDescription(description)}
+        </div>
+        <button
+          class="project-description-toggle"
+          type="button"
+          data-project-description-toggle="${key}"
+          aria-expanded="${String(isDescriptionExpanded)}"
+          aria-controls="${descriptionId}"
+          hidden
+        >
+          ${Utils.translate(isDescriptionExpanded ? 'common.readLess' : 'common.readMore', language, isDescriptionExpanded ? 'Leer menos' : 'Leer más')}
+        </button>
+      `;
 
     card.innerHTML = `
       <img src="${project.image}" alt="${title}" class="project-image" loading="lazy">
@@ -263,6 +271,13 @@ const ProjectsModule = {
     `;
 
     return card;
+  },
+
+  getProjectKey(project) {
+    return project.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
   },
 
   renderLinks(project) {
@@ -309,6 +324,51 @@ const ProjectsModule = {
       language,
       this.expanded ? 'Ver menos' : 'Ver todos'
     );
+  },
+
+  updateDescriptionToggles(language) {
+    if (!this.elements.overview) return;
+
+    const toggleButtons = this.elements.overview.querySelectorAll('[data-project-description-toggle]');
+
+    toggleButtons.forEach(button => {
+      const key = button.dataset.projectDescriptionToggle;
+      const description = document.getElementById(button.getAttribute('aria-controls'));
+      if (!description) return;
+
+      const isExpanded = this.expandedDescriptions.has(key);
+      description.classList.toggle('expanded', isExpanded);
+      button.setAttribute('aria-expanded', String(isExpanded));
+      button.textContent = Utils.translate(
+        isExpanded ? 'common.readLess' : 'common.readMore',
+        language,
+        isExpanded ? 'Leer menos' : 'Leer más'
+      );
+
+      button.onclick = () => {
+        if (this.expandedDescriptions.has(key)) {
+          this.expandedDescriptions.delete(key);
+        } else {
+          this.expandedDescriptions.add(key);
+        }
+        this.updateDescriptionToggles(I18nModule.getLanguage());
+      };
+    });
+
+    globalThis.requestAnimationFrame(() => {
+      toggleButtons.forEach(button => {
+        const description = document.getElementById(button.getAttribute('aria-controls'));
+        if (!description) return;
+
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        if (isExpanded) {
+          button.hidden = false;
+          return;
+        }
+
+        button.hidden = description.scrollHeight <= description.clientHeight + 2;
+      });
+    });
   }
 };
 

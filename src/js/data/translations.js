@@ -8,6 +8,8 @@ const TRANSLATIONS = {
     common: {
       viewAll: "Ver todos",
       showLess: "Ver menos",
+      readMore: "Leer más",
+      readLess: "Leer menos",
       close: "Cerrar"
     },
     header: { title: "Graduado Ingeniería Informática" },
@@ -59,6 +61,8 @@ const TRANSLATIONS = {
     common: {
       viewAll: "View all",
       showLess: "Show less",
+      readMore: "Read more",
+      readLess: "Read less",
       close: "Close"
     },
     header: { title: "Computer Engineering Graduate" },
