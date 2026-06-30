@@ -5,9 +5,19 @@
 
 const PROJECTS_DATA = [
   {
+    title: "WebApp Sockets Login",
+    description: {
+      es: `Aplicación web de mensajería creada para la práctica final de la asignatura de Sistemas Distribuidos en la Universidad de Burgos la cual ha sido desarrollada utilizando Java y SpringBoot. Se divide en 3 Microservicios y 1 API en Python.`,
+      en: `Messaging web application created for the final project of the Distributed Systems course at the University of Burgos, developed using Java and SpringBoot. It is divided into 3 Microservices and 1 API in Python.`,
+    },
+    image:
+      "https://cdn.jsdelivr.net/gh/joseleelsuper/Portfolio@main/assets/projects/WebApp-Sockets-Login.webp",
+    github: "https://github.com/SISD-2025-2026/JGC-WebApp_Sockets_Login",
+  },
+  {
     title: "MKV-Translator",
     description: {
-      es: `Aplicación web dedicada a traducir subítulos de un idioma ya existentes a cualquier otro idioma utilizando inteligencia artificial.\n\nLa traducción se hace desde el navegador del usuario y no desde un servidor externo.\n\nEl usuario pasa el vídeo en formato MKV con almenos un fichero de subtítulos ya existente y puede traducirlo cuantas veces quiera.\n\nSe puede hostear en local a través de un docker compose, además de necesitar una API Key de los servicios que proporcionan IA, como OpenAI o Groq, entre otros.\n\nDesarrollado con Python FastAPI en el backend y HTML, CSS y JavaScript Vanilla en el frontend para maximizar rendimiento y control sobre la interfaz de usuario.`,
+      es: `Aplicación web dedicada a traducir subítulos de un idioma ya existente a cualquier otro idioma utilizando inteligencia artificial.\n\nLa traducción se hace desde el navegador del usuario y no desde un servidor externo.\n\nEl usuario pasa el vídeo en formato MKV con almenos un fichero de subtítulos ya existente y puede traducirlo cuantas veces quiera.\n\nSe puede hostear en local a través de un docker compose, además de necesitar una API Key de los servicios que proporcionan IA, como OpenAI o Groq, entre otros.\n\nDesarrollado con Python FastAPI en el backend y HTML, CSS y JavaScript Vanilla en el frontend para maximizar rendimiento y control sobre la interfaz de usuario.`,
       en: `Web application dedicated to translating existing subtitles from one language to any other language using artificial intelligence.\n\nThe translation is done from the user's browser and not from an external server.\n\nThe user uploads the MKV video file with at least one existing subtitle file and can translate it as many times as they want.\n\nIt can be hosted locally through a docker compose, and requires an API Key from AI service providers such as OpenAI or Groq, among others.\n\nDeveloped with Python FastAPI on the backend and HTML, CSS, and Vanilla JavaScript on the frontend to maximize performance and control over the user interface.`,
     },
     image:
