@@ -10,7 +10,7 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  height: 70px;
+  height: var(--mobile-header-height);
   background: var(--color-bg-secondary);
   border-bottom: 1px solid var(--border-color);
   z-index: var(--z-header);
@@ -22,16 +22,17 @@ header {
 .header-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: 100%;
-  padding: 0 var(--spacing-lg);
-  padding-left: 70px; /* Espacio para el botón de toggle */
+  padding: 0 var(--spacing-md);
+  padding-left: calc(var(--spacing-md) + var(--mobile-menu-size) + var(--spacing-sm));
 }
 
 .header-profile {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  min-width: 0;
+  gap: var(--spacing-sm);
 }
 
 .header-avatar {
@@ -48,12 +49,22 @@ header {
   color: var(--color-text-primary);
   margin: 0;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-info p {
   font-size: var(--font-size-xs);
   color: var(--color-accent);
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-info {
+  min-width: 0;
 }
 
 /* Header oculto al hacer scroll hacia abajo */
@@ -72,7 +83,8 @@ header.hidden {
 
 @media (max-width: 480px) {
   .header-content {
-    padding-left: 60px;
+    padding-left: calc(var(--spacing-sm) + var(--mobile-menu-size) + var(--spacing-sm));
+    padding-right: var(--spacing-sm);
   }
   
   .header-info h1 {

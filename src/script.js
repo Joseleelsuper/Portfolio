@@ -1,34 +1,29 @@
 /**
- * Portfolio - JavaScript Principal
- * Arquitectura modular con patrones de diseño claros
- * @author José Gallardo Caballero
- * 
- * Los datos se cargan desde archivos separados:
+ * Portfolio - JavaScript principal
+ * Datos externos:
  * - src/js/data/projects.js (PROJECTS_DATA)
  * - src/js/data/certifications.js (CERTIFICATIONS_DATA)
  * - src/js/data/translations.js (TRANSLATIONS)
  */
 
 // =============================================================================
-// CONFIGURACIÓN GLOBAL
+// CONFIGURACION GLOBAL
 // =============================================================================
 
 const CONFIG = {
   pdfWorkerSrc: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js',
   defaultLanguage: 'es',
   supportedLanguages: ['es', 'en'],
-  scrollThreshold: 0,
+  recentProjectsLimit: 3,
+  recentCertificationsLimit: 3,
   debounceDelay: 100
 };
 
 // =============================================================================
-// MÓDULO: UTILIDADES
+// MODULO: UTILIDADES
 // =============================================================================
 
 const Utils = {
-  /**
-   * Debounce function para optimizar eventos frecuentes
-   */
   debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -41,32 +36,58 @@ const Utils = {
     };
   },
 
-  /**
-   * Convierte descripción con saltos de línea a HTML
-   */
-  parseDescription(text) {
+  escapeHTML(value = '') {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  },
+
+  translate(key, language, fallback = '') {
+    const resources = typeof TRANSLATIONS !== 'undefined' ? TRANSLATIONS : {};
+    const value = key.split('.').reduce((current, part) => current?.[part], resources[language]);
+    return typeof value === 'string' ? value : fallback;
+  },
+
+  parseDescription(text = '') {
     const paragraphs = text.split(/\n\n+/);
     let html = '';
-    
+
     paragraphs.forEach(paragraph => {
-      if (paragraph.trim().startsWith('- ') || paragraph.trim().includes('\n- ')) {
-        const items = paragraph
+      const trimmed = paragraph.trim();
+      if (!trimmed) return;
+
+      if (trimmed.startsWith('- ') || trimmed.includes('\n- ')) {
+        const items = trimmed
           .split(/\n/)
           .filter(line => line.trim().startsWith('-'))
-          .map(line => `<li>${line.replace(/^- /, '').trim()}</li>`)
+          .map(line => `<li>${this.escapeHTML(line.replace(/^- /, '').trim())}</li>`)
           .join('');
         html += `<ul>${items}</ul>`;
       } else {
-        html += `<p>${paragraph.replaceAll('\n', ' ')}</p>`;
+        html += `<p>${this.escapeHTML(trimmed.replaceAll('\n', ' '))}</p>`;
       }
     });
-    
+
     return html;
+  },
+
+  getDescriptionExcerpt(text = '', maxLength = 185) {
+    const firstParagraph = text.split(/\n\n+/).find(paragraph => paragraph.trim()) || text;
+    const normalized = firstParagraph.replace(/\s+/g, ' ').trim();
+
+    if (normalized.length <= maxLength) {
+      return normalized;
+    }
+
+    return `${normalized.slice(0, maxLength).trimEnd()}...`;
   }
 };
 
 // =============================================================================
-// MÓDULO: SIDEBAR
+// MODULO: SIDEBAR
 // =============================================================================
 
 const SidebarModule = {
@@ -90,11 +111,9 @@ const SidebarModule = {
   },
 
   bindEvents() {
-    // Toggle sidebar en móvil
     this.elements.toggle.addEventListener('click', () => this.toggle());
     this.elements.overlay.addEventListener('click', () => this.close());
 
-    // Cerrar sidebar al hacer click en un enlace (móvil)
     this.elements.navLinks.forEach(link => {
       link.addEventListener('click', () => {
         if (globalThis.innerWidth <= 1024) {
@@ -103,7 +122,6 @@ const SidebarModule = {
       });
     });
 
-    // Actualizar sección activa al hacer scroll
     globalThis.addEventListener('scroll', Utils.debounce(() => {
       this.updateActiveSection();
     }, CONFIG.debounceDelay), { passive: true });
@@ -152,17 +170,19 @@ const SidebarModule = {
 };
 
 // =============================================================================
-// MÓDULO: HEADER MÓVIL
+// MODULO: HEADER MOVIL
 // =============================================================================
 
 const HeaderModule = {
   elements: {
-    header: null
+    header: null,
+    toggle: null
   },
   lastScrollTop: 0,
 
   init() {
     this.elements.header = document.getElementById('main-header');
+    this.elements.toggle = document.getElementById('sidebar-toggle');
     if (!this.elements.header) return;
 
     this.bindEvents();
@@ -176,214 +196,190 @@ const HeaderModule = {
 
   handleScroll() {
     const scrollTop = globalThis.pageYOffset || document.documentElement.scrollTop;
-    
-    if (scrollTop > this.lastScrollTop && scrollTop > 100) {
-      this.elements.header.classList.add('hidden');
-    } else {
-      this.elements.header.classList.remove('hidden');
-    }
-    
+    const shouldHide = scrollTop > this.lastScrollTop && scrollTop > 100;
+
+    this.elements.header.classList.toggle('hidden', shouldHide);
+    this.elements.toggle?.classList.toggle('hidden', shouldHide);
+
     this.lastScrollTop = Math.max(0, scrollTop);
   }
 };
 
 // =============================================================================
-// MÓDULO: CARRUSEL
-// =============================================================================
-
-const CarouselModule = {
-  /**
-   * Crea una instancia de carrusel
-   */
-  create(containerSelector, items, cardRenderer) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return null;
-
-    const carousel = container.querySelector('.carousel');
-    const prevBtn = container.querySelector('.carousel-button.prev');
-    const nextBtn = container.querySelector('.carousel-button.next');
-
-    let currentIndex = 0;
-
-    const instance = {
-      render(language) {
-        carousel.innerHTML = '';
-        items.forEach((item, index) => {
-          const card = cardRenderer(item, index, currentIndex, language);
-          carousel.appendChild(card);
-        });
-        this.updatePosition();
-        this.updateButtons();
-      },
-
-      updatePosition() {
-        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-        this.updateActiveCard();
-      },
-
-      updateActiveCard() {
-        const cards = carousel.querySelectorAll('.project-card, .certification-card');
-        cards.forEach((card, index) => {
-          card.classList.toggle('active', index === currentIndex);
-        });
-      },
-
-      updateButtons() {
-        const shouldHide = items.length <= 1;
-        prevBtn.classList.toggle('hidden', shouldHide);
-        nextBtn.classList.toggle('hidden', shouldHide);
-      },
-
-      move(direction) {
-        currentIndex = (currentIndex + direction + items.length) % items.length;
-        this.updatePosition();
-      },
-
-      getCurrentIndex() {
-        return currentIndex;
-      }
-    };
-
-    // Bind events
-    prevBtn.addEventListener('click', () => instance.move(-1));
-    nextBtn.addEventListener('click', () => instance.move(1));
-
-    return instance;
-  }
-};
-
-// =============================================================================
-// MÓDULO: PROYECTOS
+// MODULO: PROYECTOS
 // =============================================================================
 
 const ProjectsModule = {
-  carousel: null,
+  elements: {
+    overview: null,
+    toggle: null
+  },
+  expanded: false,
 
   init(language) {
-    // PROJECTS_DATA viene del archivo projects.js
     if (typeof PROJECTS_DATA === 'undefined') {
-      console.error('PROJECTS_DATA no está definido. Asegúrate de cargar projects.js');
+      console.error('PROJECTS_DATA no esta definido. Asegurate de cargar projects.js');
       return;
     }
 
-    this.carousel = CarouselModule.create(
-      '#proyectos .carousel-container',
-      PROJECTS_DATA,
-      this.renderCard.bind(this)
-    );
-
-    if (this.carousel) {
-      this.carousel.render(language);
-    }
+    this.elements.overview = document.getElementById('projects-overview');
+    this.elements.toggle = document.querySelector('[data-toggle-list="projects"]');
+    this.elements.toggle?.addEventListener('click', () => this.toggle());
+    this.renderOverview(language);
   },
 
-  renderCard(project, index, currentIndex, language) {
-    const card = document.createElement('div');
-    card.className = `project-card ${index === currentIndex ? 'active' : ''}`;
-    
-    const descriptionHtml = Utils.parseDescription(project.description[language]);
+  renderOverview(language) {
+    if (!this.elements.overview || typeof PROJECTS_DATA === 'undefined') return;
+
+    const items = this.expanded
+      ? PROJECTS_DATA
+      : PROJECTS_DATA.slice(0, CONFIG.recentProjectsLimit);
+
+    this.elements.overview.innerHTML = '';
+    items.forEach(project => {
+      this.elements.overview.appendChild(this.renderCard(project, language, 'compact'));
+    });
+
+    this.updateToggle(language);
+  },
+
+  renderCard(project, language, variant = 'compact') {
+    const card = document.createElement('article');
+    card.className = `project-card project-card--${variant}`;
+
+    const title = Utils.escapeHTML(project.title);
+    const description = project.description?.[language] || project.description?.[CONFIG.defaultLanguage] || '';
+    const descriptionContent = variant === 'detail'
+      ? `<div class="project-description">${Utils.parseDescription(description)}</div>`
+      : `<p class="project-excerpt">${Utils.escapeHTML(Utils.getDescriptionExcerpt(description))}</p>`;
 
     card.innerHTML = `
-      <img src="${project.image}" alt="${project.title}" class="project-image">
+      <img src="${project.image}" alt="${title}" class="project-image" loading="lazy">
       <div class="project-info">
-        <h3 class="project-title">${project.title}</h3>
-        <div class="project-description">${descriptionHtml}</div>
-        <div class="project-links">
-          ${project.github ? `
-            <a href="${project.github}" class="project-link" target="_blank" rel="noopener noreferrer">
-              <span class="material-icons">code</span>
-              <span>GitHub</span>
-            </a>
-          ` : ''}
-          ${project.web ? `
-            <a href="${project.web}" class="project-link" target="_blank" rel="noopener noreferrer">
-              <span class="material-icons">language</span>
-              <span>Web</span>
-            </a>
-          ` : ''}
-        </div>
+        <h3 class="project-title">${title}</h3>
+        ${descriptionContent}
+        ${this.renderLinks(project)}
       </div>
     `;
 
     return card;
   },
 
-  update(language) {
-    if (this.carousel) {
-      this.carousel.render(language);
+  renderLinks(project) {
+    const links = [];
+
+    if (project.github) {
+      links.push(`
+        <a href="${project.github}" class="project-link" target="_blank" rel="noopener noreferrer">
+          <span class="material-icons" aria-hidden="true">code</span>
+          <span>GitHub</span>
+        </a>
+      `);
     }
+
+    if (project.web) {
+      links.push(`
+        <a href="${project.web}" class="project-link" target="_blank" rel="noopener noreferrer">
+          <span class="material-icons" aria-hidden="true">language</span>
+          <span>Web</span>
+        </a>
+      `);
+    }
+
+    return links.length ? `<div class="project-links">${links.join('')}</div>` : '';
+  },
+
+  update(language) {
+    this.renderOverview(language);
+  },
+
+  toggle(language) {
+    this.expanded = !this.expanded;
+    this.renderOverview(language || I18nModule.getLanguage());
+  },
+
+  updateToggle(language) {
+    if (!this.elements.toggle || typeof PROJECTS_DATA === 'undefined') return;
+
+    const hasMoreItems = PROJECTS_DATA.length > CONFIG.recentProjectsLimit;
+    this.elements.toggle.hidden = !hasMoreItems;
+    this.elements.toggle.setAttribute('aria-expanded', String(this.expanded));
+    this.elements.toggle.textContent = Utils.translate(
+      this.expanded ? 'common.showLess' : 'common.viewAll',
+      language,
+      this.expanded ? 'Ver menos' : 'Ver todos'
+    );
   }
 };
 
 // =============================================================================
-// MÓDULO: CERTIFICACIONES
+// MODULO: CERTIFICACIONES
 // =============================================================================
 
 const CertificationsModule = {
-  carousel: null,
+  elements: {
+    overview: null,
+    toggle: null
+  },
+  expanded: false,
   imageExtensions: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'],
 
   init(language) {
-    // CERTIFICATIONS_DATA viene del archivo certifications.js
     if (typeof CERTIFICATIONS_DATA === 'undefined') {
-      console.error('CERTIFICATIONS_DATA no está definido. Asegúrate de cargar certifications.js');
+      console.error('CERTIFICATIONS_DATA no esta definido. Asegurate de cargar certifications.js');
       return;
     }
 
-    this.carousel = CarouselModule.create(
-      '#certificaciones .carousel-container',
-      CERTIFICATIONS_DATA,
-      this.renderCard.bind(this)
-    );
-
-    if (this.carousel) {
-      this.carousel.render(language);
-      this.renderPDFs();
-    }
+    this.elements.overview = document.getElementById('certifications-overview');
+    this.elements.toggle = document.querySelector('[data-toggle-list="certifications"]');
+    this.elements.toggle?.addEventListener('click', () => this.toggle());
+    this.renderOverview(language);
   },
 
-  /**
-   * Detecta si una URL es una imagen basándose en la extensión
-   */
+  renderOverview(language) {
+    if (!this.elements.overview || typeof CERTIFICATIONS_DATA === 'undefined') return;
+
+    const items = this.expanded
+      ? CERTIFICATIONS_DATA
+      : CERTIFICATIONS_DATA.slice(0, CONFIG.recentCertificationsLimit);
+
+    this.elements.overview.innerHTML = '';
+    items.forEach(certification => {
+      this.elements.overview.appendChild(this.renderCard(certification, language, 'compact'));
+    });
+    this.updateToggle(language);
+    this.renderPDFs();
+  },
+
   isImageUrl(url) {
     if (!url) return false;
     const extension = url.split('.').pop()?.toLowerCase().split('?')[0];
     return this.imageExtensions.includes(extension);
   },
 
-  /**
-   * Detecta si una URL es un PDF basándose en la extensión
-   */
   isPdfUrl(url) {
     if (!url) return false;
     const extension = url.split('.').pop()?.toLowerCase().split('?')[0];
     return extension === 'pdf';
   },
 
-  renderCard(certification, index, currentIndex, language) {
-    const card = document.createElement('div');
-    card.className = `certification-card ${index === currentIndex ? 'active' : ''}`;
+  renderCard(certification, language, variant = 'compact') {
+    const card = document.createElement('article');
+    card.className = `certification-card certification-card--${variant}`;
 
-    const verifyText = language === 'es' ? 'Verificar' : 'Verify';
-    const downloadText = language === 'es' ? 'Descargar' : 'Download';
+    const verifyText = Utils.translate('certifications.verify', language, 'Verificar');
+    const downloadText = Utils.translate('certifications.download', language, 'Descargar');
+    const title = Utils.escapeHTML(certification.title);
+    const issuer = Utils.escapeHTML(certification.issuer);
     const hasImage = Boolean(certification.image);
     const isImage = this.isImageUrl(certification.image);
     const isPdf = this.isPdfUrl(certification.image);
 
     let imageContent = '';
     if (hasImage && isImage) {
-      // Es una imagen regular, mostrarla directamente
-      imageContent = `<img src="${certification.image}" alt="${certification.title}" class="certification-preview">`;
-    } else if (hasImage && isPdf) {
-      // Es un PDF, se renderizará después con PDF.js
-      // imageContent remains empty, PDF will be rendered later
-    } else {
-      // No hay imagen, mostrar badge
-      imageContent = `
-        <div class="certification-badge">
-          <span class="material-icons">workspace_premium</span>
-        </div>
-      `;
+      imageContent = `<img src="${certification.image}" alt="${title}" class="certification-preview" loading="lazy">`;
+    } else if (!hasImage || !isPdf) {
+      imageContent = this.renderBadge();
     }
 
     card.innerHTML = `
@@ -391,17 +387,17 @@ const CertificationsModule = {
         ${imageContent}
       </div>
       <div class="certification-info">
-        <h3 class="certification-title">${certification.title}</h3>
-        <p class="certification-issuer">${certification.issuer}</p>
+        <h3 class="certification-title">${title}</h3>
+        <p class="certification-issuer">${issuer}</p>
         <div class="certification-links">
           <a href="${certification.verifyLink}" class="certification-link" target="_blank" rel="noopener noreferrer">
-            <span class="material-icons">verified</span>
-            ${verifyText}
+            <span class="material-icons" aria-hidden="true">verified</span>
+            <span>${verifyText}</span>
           </a>
           ${certification.downloadLink ? `
             <a href="${certification.downloadLink}" class="certification-link" download>
-              <span class="material-icons">file_download</span>
-              ${downloadText}
+              <span class="material-icons" aria-hidden="true">file_download</span>
+              <span>${downloadText}</span>
             </a>
           ` : ''}
         </div>
@@ -411,17 +407,25 @@ const CertificationsModule = {
     return card;
   },
 
+  renderBadge() {
+    return `
+      <div class="certification-badge">
+        <span class="material-icons" aria-hidden="true">workspace_premium</span>
+      </div>
+    `;
+  },
+
   renderPDFs() {
     if (!globalThis.pdfjsLib) {
-      console.warn('PDF.js no está cargado');
+      console.warn('PDF.js no esta cargado');
       return;
     }
 
     const pdfElements = document.querySelectorAll('[data-pdf]');
-    
+
     pdfElements.forEach(element => {
       const pdfUrl = element.dataset.pdf;
-      
+
       if (!pdfUrl?.startsWith('http')) {
         return;
       }
@@ -433,11 +437,15 @@ const CertificationsModule = {
           const viewport = page.getViewport({ scale });
           const canvas = document.createElement('canvas');
           const context = canvas.getContext('2d');
-          
+
           canvas.height = viewport.height;
           canvas.width = viewport.width;
           canvas.setAttribute('role', 'img');
-          canvas.setAttribute('aria-label', 'Vista previa del certificado');
+          canvas.setAttribute('aria-label', Utils.translate(
+            'certifications.previewLabel',
+            I18nModule.getLanguage(),
+            'Vista previa del certificado'
+          ));
 
           return page.render({
             canvasContext: context,
@@ -450,34 +458,44 @@ const CertificationsModule = {
         })
         .catch(err => {
           console.error('Error al renderizar PDF:', err);
-          element.innerHTML = `
-            <div class="certification-badge">
-              <span class="material-icons">workspace_premium</span>
-            </div>
-          `;
+          element.innerHTML = this.renderBadge();
         });
     });
   },
 
   update(language) {
-    if (this.carousel) {
-      this.carousel.render(language);
-      this.renderPDFs();
-    }
+    this.renderOverview(language);
+  },
+
+  toggle(language) {
+    this.expanded = !this.expanded;
+    this.renderOverview(language || I18nModule.getLanguage());
+  },
+
+  updateToggle(language) {
+    if (!this.elements.toggle || typeof CERTIFICATIONS_DATA === 'undefined') return;
+
+    const hasMoreItems = CERTIFICATIONS_DATA.length > CONFIG.recentCertificationsLimit;
+    this.elements.toggle.hidden = !hasMoreItems;
+    this.elements.toggle.setAttribute('aria-expanded', String(this.expanded));
+    this.elements.toggle.textContent = Utils.translate(
+      this.expanded ? 'common.showLess' : 'common.viewAll',
+      language,
+      this.expanded ? 'Ver menos' : 'Ver todos'
+    );
   }
 };
 
 // =============================================================================
-// MÓDULO: INTERNACIONALIZACIÓN (i18n)
+// MODULO: INTERNACIONALIZACION
 // =============================================================================
 
 const I18nModule = {
   currentLanguage: CONFIG.defaultLanguage,
 
   init() {
-    // TRANSLATIONS viene del archivo translations.js
     if (typeof TRANSLATIONS === 'undefined') {
-      console.error('TRANSLATIONS no está definido. Asegúrate de cargar translations.js');
+      console.error('TRANSLATIONS no esta definido. Asegurate de cargar translations.js');
       return;
     }
 
@@ -509,8 +527,7 @@ const I18nModule = {
     });
 
     document.documentElement.lang = this.currentLanguage;
-    
-    // Actualizar carruseles con el nuevo idioma
+
     ProjectsModule.update(this.currentLanguage);
     CertificationsModule.update(this.currentLanguage);
   },
@@ -521,22 +538,19 @@ const I18nModule = {
 };
 
 // =============================================================================
-// INICIALIZACIÓN DE LA APLICACIÓN
+// INICIALIZACION DE LA APLICACION
 // =============================================================================
 
 const App = {
   init() {
-    // Configurar PDF.js
     if (globalThis.pdfjsLib) {
       globalThis.pdfjsLib.GlobalWorkerOptions.workerSrc = CONFIG.pdfWorkerSrc;
     }
 
-    // Inicializar módulos
     SidebarModule.init();
     HeaderModule.init();
     I18nModule.init();
 
-    // Inicializar contenido con idioma por defecto
     const language = I18nModule.getLanguage();
     ProjectsModule.init(language);
     CertificationsModule.init(language);
@@ -545,5 +559,4 @@ const App = {
   }
 };
 
-// Iniciar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => App.init());

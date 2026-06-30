@@ -264,48 +264,74 @@
         <section id="sobre-mi">
           <h2 data-i18n="about.title">Sobre mí</h2>
           <div class="about-content">
-            <p data-i18n="about.intro">
-              Me llamo José Gallardo Caballero. Vivo en León, pero actualmente
-              estoy estudiando en la Escuela Politécnica Superior de la
-              Universidad de Burgos.
-            </p>
-            <p data-i18n="about.skills">
-              Estoy familiarizado con la programación de distintos lenguajes como
-              Python y Java, entre otros.
-            </p>
-            <p data-i18n="about.ai">
-              Sé crear IAs simples, que aprenden a realizar una tarea durante el
-              transcurso de su vida con Python.
-            </p>
-            <p data-i18n="about.ambition">
-              Mi ambición es convertir problemas complejos en soluciones
-              tecnológicas eficientes. Trabajando en equipo, he realizado
-              proyectos que fortalecen mis habilidades analíticas y técnicas. Esta
-              experiencia me impulsa a seguir creciendo profesionalmente y aportar
-              significativamente al campo de la ingeniería informática.
-            </p>
+            <article class="about-intro">
+              <span class="about-label" data-i18n="about.profileLabel">Perfil profesional</span>
+              <p data-i18n="about.intro">
+                Me llamo José Gallardo Caballero. Vivo en León, pero actualmente
+                estoy estudiando en la Escuela Politécnica Superior de la
+                Universidad de Burgos.
+              </p>
+            </article>
+
+            <div class="about-highlights" aria-label="Resumen de perfil">
+              <article class="about-highlight">
+                <span class="material-icons" aria-hidden="true">school</span>
+                <h3 data-i18n="about.highlights.education.title">Formación</h3>
+                <p data-i18n="about.highlights.education.text">
+                  Base universitaria en Ingeniería Informática y aprendizaje orientado a proyectos reales.
+                </p>
+              </article>
+              <article class="about-highlight">
+                <span class="material-icons" aria-hidden="true">terminal</span>
+                <h3 data-i18n="about.highlights.stack.title">Stack técnico</h3>
+                <p data-i18n="about.skills">
+                  Estoy familiarizado con la programación de distintos lenguajes como
+                  Python y Java, entre otros.
+                </p>
+              </article>
+              <article class="about-highlight">
+                <span class="material-icons" aria-hidden="true">psychology</span>
+                <h3 data-i18n="about.highlights.ai.title">IA aplicada</h3>
+                <p data-i18n="about.ai">
+                  Sé crear IAs simples, que aprenden a realizar una tarea durante el
+                  transcurso de su vida con Python.
+                </p>
+              </article>
+            </div>
+
+            <article class="about-closing">
+              <p data-i18n="about.ambition">
+                Mi ambición es convertir problemas complejos en soluciones
+                tecnológicas eficientes. Trabajando en equipo, he realizado
+                proyectos que fortalecen mis habilidades analíticas y técnicas. Esta
+                experiencia me impulsa a seguir creciendo profesionalmente y aportar
+                significativamente al campo de la ingeniería informática.
+              </p>
+            </article>
           </div>
         </section>
 
         <section id="proyectos">
-          <h2 data-i18n="projects.title">Proyectos</h2>
-          <div class="carousel-container">
-            <div class="carousel">
-              <!-- Los proyectos se añadirán dinámicamente con JavaScript -->
-            </div>
-            <button class="carousel-button prev" aria-label="Proyecto anterior">&lt;</button>
-            <button class="carousel-button next" aria-label="Siguiente proyecto">&gt;</button>
+          <div class="section-heading-row">
+            <h2 data-i18n="projects.recentTitle">Proyectos recientes</h2>
+            <button class="section-action" type="button" data-toggle-list="projects" aria-expanded="false" data-i18n="common.viewAll">
+              Ver todos
+            </button>
+          </div>
+          <div class="overview-grid projects-overview" id="projects-overview">
+            <!-- Los proyectos recientes se añadirán dinámicamente con JavaScript -->
           </div>
         </section>
 
         <section id="certificaciones">
-          <h2 data-i18n="certifications.title">Certificaciones</h2>
-          <div class="carousel-container">
-            <div class="carousel">
-              <!-- Las certificaciones se añadirán dinámicamente con JavaScript -->
-            </div>
-            <button class="carousel-button prev" aria-label="Certificación anterior">&lt;</button>
-            <button class="carousel-button next" aria-label="Siguiente certificación">&gt;</button>
+          <div class="section-heading-row">
+            <h2 data-i18n="certifications.recentTitle">Certificaciones recientes</h2>
+            <button class="section-action" type="button" data-toggle-list="certifications" aria-expanded="false" data-i18n="common.viewAll">
+              Ver todos
+            </button>
+          </div>
+          <div class="overview-grid certifications-overview" id="certifications-overview">
+            <!-- Las certificaciones recientes se añadirán dinámicamente con JavaScript -->
           </div>
         </section>
       </main>
