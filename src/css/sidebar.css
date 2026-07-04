@@ -197,13 +197,28 @@
   transition: filter var(--transition-base);
 }
 
+.fiverr-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-text-secondary);
+  color: var(--color-bg-tertiary);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
 .social-link:hover img {
   filter: brightness(0) invert(1);
 }
 
-/* Fiverr necesita icono oscuro sobre fondo verde claro */
-.social-link.fiverr:hover img {
-  filter: brightness(0);
+.social-link.fiverr:hover .fiverr-icon {
+  background: #ffffff;
+  color: var(--color-fiverr);
 }
 
 /* Mobile Menu Toggle Button */
@@ -343,6 +358,12 @@
   .social-link img {
     width: 18px;
     height: 18px;
+  }
+
+  .fiverr-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 0.62rem;
   }
 }
 

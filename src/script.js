@@ -86,6 +86,7 @@ const SidebarModule = {
     overlay: null,
     navLinks: null
   },
+  hasSyncedInitialHash: false,
 
   init() {
     this.elements.sidebar = document.getElementById('sidebar');
@@ -100,20 +101,29 @@ const SidebarModule = {
   },
 
   bindEvents() {
+    const updateActiveSection = Utils.debounce(() => {
+      this.updateActiveSection();
+    }, CONFIG.debounceDelay);
+
     this.elements.toggle.addEventListener('click', () => this.toggle());
     this.elements.overlay.addEventListener('click', () => this.close());
 
     this.elements.navLinks.forEach(link => {
       link.addEventListener('click', () => {
+        this.setActiveLink(link.getAttribute('href'));
         if (globalThis.innerWidth <= 1024) {
           this.close();
         }
       });
     });
 
-    globalThis.addEventListener('scroll', Utils.debounce(() => {
-      this.updateActiveSection();
-    }, CONFIG.debounceDelay), { passive: true });
+    globalThis.addEventListener('scroll', updateActiveSection, { passive: true });
+    globalThis.addEventListener('resize', updateActiveSection, { passive: true });
+    globalThis.addEventListener('hashchange', () => {
+      this.setActiveLink(globalThis.location.hash);
+      this.scheduleActiveSectionUpdate();
+    });
+    document.querySelector('main')?.addEventListener('scroll', updateActiveSection, { passive: true });
   },
 
   toggle() {
@@ -133,15 +143,44 @@ const SidebarModule = {
   initActiveSection() {
     const hash = globalThis.location.hash || '#inicio';
     this.setActiveLink(hash);
+    this.scheduleActiveSectionUpdate();
+  },
+
+  scheduleActiveSectionUpdate() {
+    globalThis.requestAnimationFrame(() => {
+      this.updateActiveSection();
+    });
+  },
+
+  syncInitialHashTarget() {
+    const hash = globalThis.location.hash;
+    if (this.hasSyncedInitialHash || !hash) return;
+
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target) return;
+
+    this.hasSyncedInitialHash = true;
+    globalThis.requestAnimationFrame(() => {
+      target.scrollIntoView({ block: 'start' });
+      this.setActiveLink(hash);
+      globalThis.setTimeout(() => this.updateActiveSection(), CONFIG.debounceDelay + 50);
+    });
   },
 
   updateActiveSection() {
     const sections = document.querySelectorAll('section[id]');
     let currentSection = '';
+    let largestVisibleArea = 0;
+    const viewportHeight = globalThis.innerHeight || document.documentElement.clientHeight;
 
     sections.forEach(section => {
       const rect = section.getBoundingClientRect();
-      if (rect.top <= 150 && rect.bottom >= 150) {
+      const visibleTop = Math.max(rect.top, 0);
+      const visibleBottom = Math.min(rect.bottom, viewportHeight);
+      const visibleArea = Math.max(0, visibleBottom - visibleTop);
+
+      if (visibleArea > largestVisibleArea) {
+        largestVisibleArea = visibleArea;
         currentSection = `#${section.id}`;
       }
     });
@@ -232,6 +271,8 @@ const ProjectsModule = {
 
     this.updateToggle(language);
     this.updateDescriptionToggles(language);
+    SidebarModule.syncInitialHashTarget?.();
+    SidebarModule.scheduleActiveSectionUpdate?.();
   },
 
   renderCard(project, language, variant = 'compact') {
@@ -409,6 +450,8 @@ const CertificationsModule = {
     });
     this.updateToggle(language);
     this.renderPDFs();
+    SidebarModule.syncInitialHashTarget?.();
+    SidebarModule.scheduleActiveSectionUpdate?.();
   },
 
   isImageUrl(url) {
@@ -515,6 +558,7 @@ const CertificationsModule = {
         .then(canvas => {
           element.innerHTML = '';
           element.appendChild(canvas);
+          SidebarModule.scheduleActiveSectionUpdate?.();
         })
         .catch(err => {
           console.error('Error al renderizar PDF:', err);

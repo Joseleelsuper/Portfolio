@@ -45,12 +45,12 @@ const TRANSLATIONS = {
     },
     projects: {
       title: "Proyectos",
-      recentTitle: "Proyectos recientes",
+      recentTitle: "Proyectos",
       allTitle: "Todos los proyectos"
     },
     certifications: { 
       title: "Certificaciones",
-      recentTitle: "Certificaciones recientes",
+      recentTitle: "Certificaciones",
       allTitle: "Todas las certificaciones",
       previewLabel: "Vista previa del certificado",
       verify: "Verificar",
@@ -98,12 +98,12 @@ const TRANSLATIONS = {
     },
     projects: {
       title: "Projects",
-      recentTitle: "Recent projects",
+      recentTitle: "Projects",
       allTitle: "All projects"
     },
     certifications: { 
       title: "Certifications",
-      recentTitle: "Recent certifications",
+      recentTitle: "Certifications",
       allTitle: "All certifications",
       previewLabel: "Certificate preview",
       verify: "Verify",
