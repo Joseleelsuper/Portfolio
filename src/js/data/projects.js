@@ -5,6 +5,17 @@
 
 const PROJECTS_DATA = [
   {
+    title: "Batch Downloader",
+    description: {
+      es: `Plataforma web desarrollada como Trabajo de Fin de Grado en la Universidad de Burgos para buscar aplicaciones de Windows, Linux y macOS, crear bundles y descargar varios instaladores en un único ZIP.\n\nIntegra un scraper que mantiene el catálogo y una búsqueda semántica con inteligencia artificial para encontrar aplicaciones a partir de lo que necesitas.\n\nDesarrollado con Java y Spring Boot, Python y FastAPI, React y TypeScript, con MySQL, PostgreSQL y pgvector. Los servicios se despliegan con Docker.`,
+      en: `Web platform developed as a final degree project at the University of Burgos to find applications for Windows, Linux and macOS, create bundles and download multiple installers in a single ZIP.\n\nIt integrates a scraper that maintains the catalog and AI-powered semantic search to find applications based on what you need.\n\nDeveloped with Java and Spring Boot, Python and FastAPI, React and TypeScript, with MySQL, PostgreSQL and pgvector. Services are deployed with Docker.`,
+    },
+    image: "assets/projects/Batch-Downloader.webp",
+    github: "https://github.com/Joseleelsuper/Batch-Downloader",
+    web: "https://batchdownloader.dev/",
+    report: "https://github.com/Joseleelsuper/Batch-Downloader-Memoria",
+  },
+  {
     title: "WebApp Sockets Login",
     description: {
       es: `Aplicación web de mensajería creada para la práctica final de la asignatura de Sistemas Distribuidos en la Universidad de Burgos la cual ha sido desarrollada utilizando Java y SpringBoot. Se divide en 3 Microservicios y 1 API en Python.`,

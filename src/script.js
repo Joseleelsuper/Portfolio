@@ -307,7 +307,7 @@ const ProjectsModule = {
       <div class="project-info">
         <h3 class="project-title">${title}</h3>
         ${descriptionContent}
-        ${this.renderLinks(project)}
+        ${this.renderLinks(project, language)}
       </div>
     `;
 
@@ -321,7 +321,7 @@ const ProjectsModule = {
       .replace(/^-|-$/g, '');
   },
 
-  renderLinks(project) {
+  renderLinks(project, language) {
     const links = [];
 
     if (project.github) {
@@ -338,6 +338,15 @@ const ProjectsModule = {
         <a href="${project.web}" class="project-link" target="_blank" rel="noopener noreferrer">
           <span class="material-icons" aria-hidden="true">language</span>
           <span>Web</span>
+        </a>
+      `);
+    }
+
+    if (project.report) {
+      links.push(`
+        <a href="${project.report}" class="project-link" target="_blank" rel="noopener noreferrer">
+          <span class="material-icons" aria-hidden="true">description</span>
+          <span>${Utils.translate('projects.report', language, 'Memoria')}</span>
         </a>
       `);
     }

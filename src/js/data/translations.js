@@ -46,7 +46,8 @@ const TRANSLATIONS = {
     projects: {
       title: "Proyectos",
       recentTitle: "Proyectos",
-      allTitle: "Todos los proyectos"
+      allTitle: "Todos los proyectos",
+      report: "Memoria"
     },
     certifications: { 
       title: "Certificaciones",
@@ -99,7 +100,8 @@ const TRANSLATIONS = {
     projects: {
       title: "Projects",
       recentTitle: "Projects",
-      allTitle: "All projects"
+      allTitle: "All projects",
+      report: "Project report"
     },
     certifications: { 
       title: "Certifications",
